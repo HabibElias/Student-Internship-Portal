@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Job Portal</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=app_registration,arrow_back,arrow_forward,attach_file,call,flag,home,login,logout,mail,open_in_full,person,schedule,school,search,work"
+    />
+    <link rel="stylesheet" href="../../styles/icon.css" />
+    <link rel="stylesheet" href="../../styles/main.css" />
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="../../styles/authFooter.css" />
+    <link rel="stylesheet" href="../../styles/authHeader.css" />
+  </head>
+  <body>
+    <header>
+      <p class="logo">Student Job Portal</p>
+      <nav>
+        <ul>
+          <li>
+            <a href="../homePage/index.html">
+              <span class="material-symbols-rounded">home</span>
+              <p>Home</p></a
+            >
+          </li>
+          <li>
+            <a href="../login/login.html">
+              <span class="material-symbols-rounded">login</span>
+              <p>Login</p>
+            </a>
+          </li>
+          <li>
+            <a href="../registerStudent/registerStudent.html" class="current">
+              <span class="material-symbols-rounded pulse"
+                >app_registration</span
+              >
+              <p>Register</p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <div class="choose-for">
+        <a href="./registerStudent.html" class="current">Student</a>
+        <a href="../registerCompany/new.html">Company</a>
+      </div>
+
+      <div class="container">
+        <span class="material-symbols-rounded big">app_registration</span>
+
+        <h2>Register</h2>
+
+        <form action="">
+          <div class="inputs">
+            <div class="input">
+              <label for="fName">First Name <big>*</big></label>
+              <input
+                type="text"
+                name="fName"
+                id="fName"
+                placeholder="Bekele"
+                required
+              />
+              <p class="error fNameError">can't be nothing</p>
+            </div>
+            <div class="input">
+              <label for="lName">Last Name <big>*</big></label>
+              <input
+                type="text"
+                name="lName"
+                id="lName"
+                placeholder="Abebe"
+                required
+              />
+              <p class="error lNameError">can't be nothing</p>
+            </div>
+          </div>
+
+          <div class="input">
+            <label for="id">Id <big>*</big></label>
+            <input
+              type="text"
+              name="id"
+              id="id"
+              pattern="ETS[0-9]{4}/[0-9]{2}"
+              placeholder="ETS0597/15"
+              required
+            />
+            <p class="error idError">can't be nothing</p>
+          </div>
+
+          <div class="input">
+            <label for="female">Gender <big>*</big></label>
+            <div class="choose">
+              <div>
+                <input
+                  type="radio"
+                  value="female"
+                  name="gender"
+                  id="female"
+                  required
+                />
+
+                <label for="female">
+                  <p>Female</p>
+                </label>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  value="male"
+                  name="gender"
+                  id="male"
+                  required
+                />
+                <label for="male">
+                  <p>Male</p>
+                </label>
+              </div>
+            </div>
+            <p class="error genderError">can't be nothing</p>
+          </div>
+
+          <div class="inputs">
+            <div class="input">
+              <label for="dept">Department <big>*</big></label>
+              <select name="dept" id="dept">
+                <option value="" selected></option>
+                <option value="Software Engineering">
+                  Software Engineering
+                </option>
+                <option value="Mechanical Engineering">
+                  Mechanical Engineering
+                </option>
+                <option value="Food Science and Applied">
+                  Food Science and Applied
+                </option>
+                <option value="Geology">Geology</option>
+                <option value="Industrial Chemistry">
+                  Industrial Chemistry
+                </option>
+                <option value="Environmental Engineering">
+                  Environmental Engineering
+                </option>
+                <option value="Mining Engineering">Mining Engineering</option>
+                <option value="Electromechanical Engineering">
+                  Electromechanical Engineering
+                </option>
+                <option value="Chemical Engineering">
+                  Chemical Engineering
+                </option>
+                <option value="Civil Engineering">Civil Engineering</option>
+              </select>
+              <p class="error dError">can't be nothing</p>
+            </div>
+            <div class="input">
+              <label for="yr">Year <big>*</big></label>
+              <select name="yr" id="yr">
+                <option value="" selected></option>
+                <option value="1">1st</option>
+                <option value="2">2nd</option>
+                <option value="3">3rd</option>
+                <option value="4">4th</option>
+                <option value="5">5th</option>
+              </select>
+              <p class="error yrError">can't be nothing</p>
+            </div>
+          </div>
+
+          <div class="input">
+            <label for="semail">Student Email <big>*</big></label>
+            <input
+              type="email"
+              name="semail"
+              id="semail"
+              placeholder="example@gmail.com"
+              required
+            />
+            <p class="error semailError">can't be nothing</p>
+          </div>
+
+          <div class="input">
+            <input
+              type="file"
+              name="sImage"
+              id="sImage"
+              accept="image/*"
+              placeholder="example@gmail.com"
+              required
+            />
+            <label for="sImage">Student Image <big>*</big></label>
+            <p class="error fileError"></p>
+          </div>
+
+          <div class="check">
+            <p>Consent <big>*</big></p>
+            <input type="checkbox" name="consent" id="consent" required />
+            <label for="consent"
+              >I agree to be a part of these community and take any
+              responsibilities for my actions.</label
+            >
+            <p class="error consentError">can't be nothing</p>
+          </div>
+
+          <div class="btns">
+            <button type="submit">Register</button>
+            <div class="register">
+              Already have an account?<a href="../login/login.html">
+                Login here</a
+              >
+            </div>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <footer class="content">
+      <p class="logo">Student Job Portal</p>
+      &copy;2025
+      <ul>
+        <li><a href="#">User Agreement</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Community</a></li>
+        <li><a href="#">Guidelines</a></li>
+        <li><a href="#">Cookie Policy</a></li>
+        <li><a href="#">Copyright Policy</a></li>
+        <li><a href="#">Send Feedback</a></li>
+      </ul>
+    </footer>
+
+    <script src="./script.js"></script>
+  </body>
+</html>

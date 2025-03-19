@@ -1,0 +1,296 @@
+html {
+  scroll-behavior: smooth;
+}
+
+#home {
+  background: url("../../assets/images/homePage/home.jpg");
+  background-size: cover;
+  width: 100vw;
+  height: max-content;
+}
+#home header p.logo {
+  color: #fff;
+  font-family: "DM Serif";
+  font-size: 19px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+#home header {
+  display: flex;
+  padding: 58px 116px;
+  justify-content: space-between;
+}
+#home header ul li {
+  display: inline-block;
+  margin-right: 71px;
+}
+
+#home header ul li a {
+  text-decoration: none;
+  color: #fff;
+  font-family: Poppins;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+#home header ul li a.current,
+#home header ul li a:hover {
+  color: rgba(255, 255, 255, 0.4);
+}
+#home header ul li a.btn:hover {
+  color: var(--black);
+  background-color: #d7d6fa;
+}
+#home header ul li a.btn {
+  padding: 4px 15px;
+  border-radius: 5px;
+  background: #7d7ada;
+}
+
+/* HERO SECTION */
+div.hero {
+  /* transform: scale(0.8); */
+  text-align: center;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  gap: 22px;
+  margin-bottom: 60px;
+}
+
+div.hero .quote {
+  background: rgba(79, 92, 136, 0.37);
+  padding: 12px 20px;
+  color: #fff;
+  text-align: center;
+  font-family: "DM Sans";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+}
+
+div.hero .headline {
+  width: 526px;
+  color: #fff;
+  text-align: center;
+  font-family: "DM Sans";
+  font-size: 34px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+}
+div.hero .description {
+  width: 347px;
+  color: rgba(255, 255, 255, 0.62);
+  text-align: center;
+  font-family: "DM Sans";
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+}
+div.hero .btns {
+  display: inline-flex;
+  gap: 50px;
+}
+div.hero .btns a {
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+div.hero .btns a.login {
+  padding: 10px 50px;
+  border-radius: 53px;
+  border: 3px solid #7d7ada;
+  color: #7d7ada;
+  font-family: "DM Sans";
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  text-decoration: none;
+}
+div.hero .btns a.signup {
+  padding: 10px 50px;
+  border-radius: 53px;
+  background: #7d7ada;
+  color: #fff;
+  font-family: "DM Sans";
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  text-decoration: none;
+}
+div.hero .btns a:hover {
+  background: #7d7ada;
+  color: #fff;
+}
+div#home .img {
+  width: 100%;
+  display: grid;
+  place-items: center;
+  box-shadow: 0px 106px 100px -10px rgba(112, 121, 217, 0.26);
+  z-index: 1;
+}
+
+/* ABOUT SECTION */
+#about {
+  width: 100vw;
+  height: 100vh;
+  background: url("../../assets/images/homePage/home.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 62px;
+}
+
+#about h2 {
+  color: #fdf6c4;
+  text-align: center;
+  font-family: "DM Sans";
+  font-size: 28px;
+  font-style: italic;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 3.64px;
+}
+#about p {
+  width: 80%;
+  color: #cbd1fb;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  letter-spacing: 2.2px;
+}
+
+/* ABOUT 2 SECTION */
+#about2 {
+  width: 100vw;
+  height: 100vh;
+  background: url("../../assets/images/homePage/home.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 60px;
+}
+
+#about2 div.desc {
+  color: #fff;
+  font-family: "DM Sans";
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: normal;
+}
+
+#about2 div.cards {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 80px;
+}
+#about2 div.cards .card {
+  padding: 46px 30px;
+  width: 308.3px;
+  height: 396.861px;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0px 14px 50px -20px #cbd1fb;
+  backdrop-filter: blur(15px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+#about2 div.cards .header {
+  color: #0e181d;
+  text-align: center;
+  font-family: "DM Sans";
+  font-size: 20px;
+  font-style: italic;
+  font-weight: 800;
+  line-height: normal;
+}
+
+#about2 div.cards .elaborate {
+  color: #0e181d;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+#about2 div.outro .header {
+  color: #fdf6c4;
+  font-family: "DM Sans";
+  font-size: 25px;
+  font-style: italic;
+  font-weight: 900;
+  line-height: normal;
+}
+
+#about2 div.outro .desc {
+  color: #7d7ada;
+  font-family: "DM Sans";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-align: center;
+}
+#contact {
+  width: 100vw;
+  height: 73.5vh;
+  background: url("../../assets/images/homePage/contact\ us.jpg") no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 223px;
+}
+#contact p {
+  color: #fff;
+  font-family: Poppins;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 2.7px;
+  padding-bottom: 30px;
+}
+#contact ul {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+#contact ul li {
+  padding-bottom: 12px;
+  color: #DDDCFF;
+  font-family: Poppins;
+  font-size: 25px;
+  display: inline-flex;
+  gap: 10px;
+  font-style: normal;
+  list-style: none;
+  font-weight: 400;
+  line-height: 14px; /* 56% */
+  letter-spacing: 2px;
+  text-decoration: none;
+}

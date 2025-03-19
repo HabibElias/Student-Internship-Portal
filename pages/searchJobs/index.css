@@ -1,0 +1,254 @@
+main {
+  margin: 78.75px 101.5px 0 101.5px;
+}
+main .search-nav {
+  display: grid;
+  grid-template-areas: "A BB B C";
+}
+main .search-nav h4 {
+  color: var(--black);
+  /* flex: 1;
+    text-align: left; */
+  grid-area: "A";
+  font-size: 16.625px;
+  font-weight: 500;
+  font-style: normal;
+  font-family: Poppins;
+  letter-spacing: 0.49875px;
+  line-height: normal;
+}
+main .search-nav ul {
+  transform: scale(0.8);
+  grid-area: "B";
+  text-align: right;
+}
+main .search-nav ul li {
+  display: inline-block;
+}
+
+main .search-nav ul a.current,
+main .search-nav ul a:hover {
+  color: var(--white);
+  background-color: var(--purple);
+}
+main .search-nav ul a {
+  color: var(--purple);
+  text-decoration: none;
+  padding: 13.125px 19.25px;
+  margin: 0 17.5px;
+  gap: 2.625px;
+  border-radius: 8.75px;
+  border: 3.5px solid #7d7ada;
+  /* background: #7d7ada; */
+  font-family: Poppins;
+  font-size: 16.625px;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 0.49875px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+/* Jobs Styling */
+.jobs .img {
+  display: inline-flex;
+  gap: 30px;
+  align-items: center;
+  width: auto;
+}
+.jobs .img img {
+  width: 250px;
+  border-radius: 50%;
+}
+.jobs .img p {
+  font-size: 1rem;
+  color: #949393;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.jobs {
+  width: 100%;
+  height: max-content;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  place-items: center;
+  gap: 100px;
+  margin-top: 100px;
+}
+.job {
+  transform: scale(1.1);
+  display: flex;
+  flex-direction: column;
+  background-color: var(--white);
+  border-radius: 17.5px;
+  border: 5.25px solid #dbdfe4;
+  background: #fff;
+  box-shadow: 0 6.5625px 43.75px -17.5px rgba(0, 0, 0, 0.2);
+  width: 367.5px;
+  height: max-content; /*450.625px*/
+  position: relative;
+  padding: 35px 31.71875px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.job:hover {
+  transform: scale(1.15);
+  box-shadow: 0 8.75px 52.5px -17.5px rgba(0, 0, 0, 0.4);
+}
+.job .logo {
+  position: absolute;
+  top: 17.5px;
+  right: 31.71875px;
+  width: 36.09375px;
+  height: 39.375px;
+  background: url("../../assets/images/searchJobs/1630564284711\ 1.svg")
+    lightgray 50% / cover no-repeat;
+}
+.job .description button {
+  border: none;
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
+  color: #7d7ada;
+  font-family: Poppins;
+  font-size: 10.9375px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-bottom: 16.40625px;
+}
+.job .title h2 {
+  color: #0e181d;
+  font-family: Montserrat;
+  font-size: 17.5px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+.job .title .keywords {
+  display: flex;
+  margin: 24.0625px 0 27.34375px 0;
+  gap: 32.8125px;
+  color: #949393;
+  font-family: Montserrat;
+  font-size: 12.03125px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+.job .description p {
+  width: 100%;
+  height: 96.25px;
+  color: #0e181d;
+  overflow-y: auto;
+  font-family: Montserrat;
+  font-size: 10.9375px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.job .description h3 {
+  margin-bottom: 14.21875px;
+  color: #0e181d;
+  font-family: Montserrat;
+  font-size: 13.125px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+.job .details {
+  display: flex;
+  flex-direction: column;
+  gap: 16.40625px;
+}
+.job .details .detail {
+  display: flex;
+  flex: 1 1;
+}
+.job .details .detail .detailTitle {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 4.375px;
+}
+.job .details .detail .detailTitle span {
+  font-size: 15.3125px;
+  font-variation-settings: "FILL" 1, "opsz" 40;
+  color: #949393;
+}
+.job .details .detail .detailDescription {
+  flex: 1;
+  text-align: start;
+  color: #0e181d;
+  font-family: Poppins;
+  font-size: 9.8px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.job .details .detail .detailTitle p {
+  color: #949393;
+  font-family: Poppins;
+  font-size: 9.84375px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.job .btns {
+  margin-top: 10.9375px;
+  align-self: flex-end;
+  justify-self: flex-end;
+  display: flex;
+  align-items: center;
+  gap: 21px;
+}
+.job .btns a:hover,
+.job .btns a.apply {
+  background: #7d7ada;
+  color: #fff;
+}
+.job .btns a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 10.9375px 13.125px;
+  border: none;
+  border-radius: 16.40625px;
+  background: rgba(191, 189, 255, 0.54);
+  color: #5344c2;
+  cursor: pointer;
+  font-family: Poppins;
+  font-size: 7.65625px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.03828125px;
+  transition: color 0.2s ease, background-color 0.2s ease;
+  transform: scale(1.2);
+}
+.job .btns a span {
+  font-size: 9.84375px;
+  font-variation-settings: "FILL" 1, "opsz" 40;
+}
+
+.bottom-btns {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin: 70px 0;
+}
+.bottom-btns a {
+  color: var(--purple);
+  text-decoration: none;
+  padding: 13px 13px 9px 13px;
+  margin: 0 17.5px;
+  gap: 2.625px;
+  border-radius: 50%;
+  border: 3.5px solid #7d7ada;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.bottom-btns a:hover {
+  color: var(--white);
+  background-color: var(--purple);
+}

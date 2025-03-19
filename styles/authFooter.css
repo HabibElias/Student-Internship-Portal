@@ -1,0 +1,31 @@
+footer {
+  justify-self: center;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin-top: 140px;
+}
+footer ul li {
+  display: inline-flex;
+  gap: 20px;
+}
+footer ul li a {
+  color: var(--black);
+  text-align: center;
+  font-family: Poppins;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  letter-spacing: 0.55px;
+  text-decoration: none;
+}
+footer .logo {
+  color: #000;
+  text-align: center;
+  font-family: "DM Serif";
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}

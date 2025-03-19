@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Job Portal</title>
+    <!-- <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    /> -->
+    <link rel="stylesheet" href="../../styles/jobHeader.css" />
+    <link rel="stylesheet" href="../../styles/main.css" />
+    <link rel="stylesheet" href="../../styles/footer.css" />
+    <link rel="stylesheet" href="../../styles/icon.css" />
+    <link rel="stylesheet" href="./index.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=arrow_back,arrow_forward,attach_file,call,flag,home,logout,mail,open_in_full,person,schedule,school,search,work"
+    />
+    <!-- <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=work"
+    /> -->
+  </head>
+  <body>
+    <header>
+      <nav>
+        <p class="logo">Students Job Portal</p>
+        <ul>
+          <li>
+            <a href="../homePage/index.html">
+              <span class="material-symbols-rounded">home</span>
+              <p>Home</p>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="current">
+              <span class="material-symbols-rounded pulse">search</span>
+              <p>Search Jobs</p>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <span class="big material-symbols-rounded">person</span>
+            </a>
+          </li>
+          <li>
+            <a href="../login/login.html">
+              <span class="big material-symbols-rounded">logout</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <section class="search">
+        <h1 class="slogan">Your Job Search, Simplified</h1>
+
+        <div class="holder">
+          <div class="search-field">
+            <label for="search"> Job Name </label>
+            <div class="input">
+              <input
+                type="text"
+                placeholder="Search"
+                name="search"
+                id="search"
+              />
+              <button class="search-btn">
+                <span class="material-symbols-rounded">search</span>
+                Search
+              </button>
+            </div>
+          </div>
+          <h3 class="filter">Filters</h3>
+          <div class="filters">
+            <div class="input">
+              <label for="interJob">Search For </label>
+              <select name="interJob" id="interJob">
+                <option value="all" selected>All</option>
+                <option value="Job">Job</option>
+                <option value="internship">internship</option>
+              </select>
+            </div>
+            <div class="input">
+              <label for="jobTime">Job Time</label>
+              <select name="jobTime" id="jobTime">
+                <option value="all" selected>All</option>
+                <option value="partTime">Part-time</option>
+                <option value="fullTime">Full-time</option>
+              </select>
+            </div>
+            <div class="input">
+              <label for="pTime">Posted Time</label>
+              <select name="pTime" id="pTime">
+                <option value="all" selected>All</option>
+                <option value="1">Recent</option>
+                <option value="1">before 1 day</option>
+                <option value="7">before a week</option>
+                <option value="30">before a month</option>
+                <option value="365">before a year</option>
+              </select>
+            </div>
+            <div class="input">
+              <label for="dept">Department</label>
+              <select name="dept" id="dept">
+                <option value="all" selected>All</option>
+                <option value="Software Engineering">
+                  Software Engineering
+                </option>
+                <option value="Mechanical Engineering">
+                  Mechanical Engineering
+                </option>
+                <option value="Food Science and Applied">
+                  Food Science and Applied
+                </option>
+                <option value="Geology">Geology</option>
+                <option value="Industrial Chemistry">
+                  Industrial Chemistry
+                </option>
+                <option value="Environmental Engineering">
+                  Environmental Engineering
+                </option>
+                <option value="Mining Engineering">Mining Engineering</option>
+                <option value="Electromechanical Engineering">
+                  Electromechanical Engineering
+                </option>
+                <option value="Chemical Engineering">
+                  Chemical Engineering
+                </option>
+                <option value="Civil Engineering">Civil Engineering</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </section>
+    </header>
+    <main>
+      <!-- THE SEARCH RESULT NAVIGATION -->
+      <div class="search-nav">
+        <h4>Search Result</h4>
+        <ul>
+          <li><a href="#" class="current">1</a></li>
+          <li><a href="#">2</a></li>
+          <li><a href="#">3</a></li>
+          <li><a href="#">3</a></li>
+          <li><a href="#">5</a></li>
+          <li><a href="#">6</a></li>
+          <li><a href="#">7</a></li>
+        </ul>
+      </div>
+      <!-- THE JOBS DISPLAYED HERE -->
+      <div class="jobs"></div>
+
+      <div class="bottom-btns">
+        <a href="#">
+          <span class="material-symbols-rounded">arrow_back</span>
+        </a>
+        <a href="#">
+          <span class="material-symbols-rounded">arrow_forward</span>
+        </a>
+      </div>
+      <!-- Footer -->
+    </main>
+    <footer>
+      <div class="copyright">
+        <p class="title">Students Job Portal</p>
+        <p class="copy">&copy; 2025</p>
+        <p class="reserved">All right reserved</p>
+      </div>
+      <div class="services">
+        <p class="title">Services</p>
+        <ul>
+          <li><a href="#">About us</a></li>
+          <li><a href="#">Contact us</a></li>
+          <li><a href="#">Features</a></li>
+          <li><a href="#">Blog</a></li>
+        </ul>
+      </div>
+      <div class="resouces">
+        <p class="title">Resources</p>
+        <ul>
+          <li><a href="#">Apps</a></li>
+          <li><a href="#">Developer</a></li>
+          <li><a href="#">Integration</a></li>
+          <li><a href="#">Pricing</a></li>
+        </ul>
+      </div>
+      <div class="contacts">
+        <p class="title">Contacts</p>
+        <ul>
+          <li>
+            <span class="material-symbols-rounded medium">mail</span>
+            studentJob.intern@gmail.com
+          </li>
+          <li>
+            <span class="material-symbols-rounded medium">call</span>
+            +(251)959784554
+          </li>
+          <li class="img-links">
+            <a href="#">
+              <img
+                src="../../assets/images/searchJobs/Frame.svg"
+                alt="facebook"
+              />
+            </a>
+            <a href="#">
+              <img
+                src="../../assets/images/searchJobs/instagram.svg"
+                alt="facebook"
+              />
+            </a>
+            <a href="#">
+              <img
+                src="../../assets/images/searchJobs/twitter.svg"
+                alt="facebook"
+              />
+            </a>
+          </li>
+        </ul>
+      </div>
+    </footer>
+
+    <script src="./script.js"></script>
+  </body>
+</html>

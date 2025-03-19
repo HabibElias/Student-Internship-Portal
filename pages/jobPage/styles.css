@@ -1,0 +1,282 @@
+header nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 114px;
+  align-items: center;
+  background-color: var(--purpleLight);
+}
+header nav ul {
+  display: inline-flex;
+  align-items: center;
+}
+header nav .logo {
+  color: #363f43;
+  text-align: center;
+  font-family: "DM Serif";
+  font-size: 19px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+header nav ul li {
+  display: inline-block;
+  margin-left: 71px;
+}
+
+header nav ul li a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #363f43;
+  gap: 10px;
+  padding: 4.375px;
+  border-radius: 3.5px;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+header nav ul li a:hover {
+  color: var(--vDarkPurple);
+  background-color: var(--inputFill);
+}
+header nav ul li a.current {
+  color: var(--vDarkPurple);
+}
+
+/* Main styling */
+
+main .aboutjob {
+  display: flex;
+  justify-content: space-between;
+  padding: 52px 114px;
+  position: relative;
+}
+main .jobDetails > h1 {
+  color: #0e181d;
+  font-family: Poppins;
+  font-size: 35px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+main .jobDetails > .keywords {
+  margin-top: 24px;
+  display: flex;
+  gap: 25px;
+  color: #949393;
+  font-family: Montserrat;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+main .jobDetails .description {
+  display: flex;
+  width: 718px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+main .jobDetails .description > h2 {
+  align-self: flex-start;
+  margin-top: 34px;
+  color: #0e181d;
+  font-family: Montserrat;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+main .jobDetails .description > .descriptionDiv {
+  color: #0e181d;
+  font-family: Montserrat;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.5rem; /* 166.667% */
+}
+
+main .jobDetails .description > .descriptionDiv ul li {
+  margin: 0 20px;
+}
+
+main .companyDetails {
+  transform: scale(1.1);
+  max-width: 408.751px;
+  height: max-content;
+  padding: 25px 60px;
+  border-left: 1px solid #d9d9d9;
+}
+
+main .companyDetails .title {
+  color: #000;
+  margin-bottom: 35px;
+  font-family: Poppins;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 275;
+  line-height: normal;
+  letter-spacing: 0.36px;
+}
+
+main .companyDetails .compTitle {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin-bottom: 40px;
+}
+main .companyDetails .compTitle .logo {
+  width: 69px;
+  height: 69px;
+  border-radius: 100px;
+  border: 3px solid #d9d9d9;
+  background: url("../../assets/images/searchJobs/1630564284711\ 1.svg")
+    lightgray 50% / cover no-repeat;
+}
+
+main .companyDetails .compTitle .compName {
+  color: #000;
+  font-family: Montserrat;
+  font-size: 21px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0.63px;
+}
+
+main .companyDetails .about .atitle {
+  color: #000;
+  font-family: Montserrat;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.08px;
+  margin-bottom: 9px;
+}
+
+main .companyDetails .about p {
+  color: #000;
+  font-family: Poppins;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.045px;
+}
+
+main .companyDetails .links {
+  margin-top: 25px;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 10px;
+}
+main .companyDetails .links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 35px;
+  color: #4f4c98;
+  font-family: "Dm Sans";
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.065px;
+}
+
+.jobDetails .details {
+  display: flex;
+  flex-direction: column;
+  gap: 16.40625px;
+  margin: 100px 125px;
+  transform: scale(1.5);
+}
+.jobDetails .details .detail {
+  display: flex;
+  flex: 1 1;
+}
+.jobDetails .details .detail .detailTitle {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 4.375px;
+}
+.jobDetails .details .detail .detailTitle span {
+  font-size: 15.3125px;
+  font-variation-settings: "FILL" 1, "opsz" 40;
+  color: #949393;
+}
+.jobDetails .details .detail .detailDescription {
+  flex: 1;
+  text-align: start;
+  color: #0e181d;
+  font-family: Poppins;
+  font-size: 9.8px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.jobDetails .details .detail .detailTitle p {
+  color: #949393;
+  font-family: Poppins;
+  font-size: 9.84375px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.jobDetails > a {
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  text-decoration: none;
+  align-items: center;
+  width: 252px;
+  height: 68px;
+  border-radius: 100px;
+  border: none;
+  background: #7d7ada;
+  font-family: Poppins;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.1px;
+  transition: background-color 0.2s ease;
+}
+.jobDetails > a:hover {
+  background-color: #5344c2;
+}
+
+.relatedJobs h2 {
+  color: #000;
+  font-family: Poppins;
+  font-size: 21px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0.63px;
+}
+
+.relatedJobs a {
+  color: #5344c2;
+  font-family: Poppins;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.135px;
+  text-decoration: none;
+}
+.relatedJobs a:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Job Portal - Application Page</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=app_registration,arrow_back,arrow_forward,assignment,attach_file,call,flag,home,login,logout,mail,open_in_full,person,schedule,school,search,work"
+    />
+    <link rel="stylesheet" href="../../styles/main.css" />
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="../../styles/icon.css" />
+    <link rel="stylesheet" href="../../styles/authFooter.css" />
+  </head>
+
+  <body>
+    <header>
+      <nav>
+        <p class="logo">Student Job Portal</p>
+        <ul>
+          <li>
+            <a href="../homePage/index.html">
+              <span class="material-symbols-rounded">home</span>
+              <p>Home</p>
+            </a>
+          </li>
+          <li>
+            <a href="../searchJobs/index.html">
+              <span class="material-symbols-rounded">search</span>
+              <p>Search</p>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <span class="material-symbols-rounded big">person</span>
+            </a>
+          </li>
+          <li>
+            <a href="../login/login.html">
+              <span class="material-symbols-rounded big">logout</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <div class="applyFor">
+        <p class="title">Apply For:</p>
+        <p class="jobTitle">Sales and Marketing Strategy Consultant</p>
+      </div>
+      <div class="container">
+        <span class="material-symbols-rounded">assignment</span>
+        <h2>Apply</h2>
+        <form action="">
+          <div class="input">
+            <label for="username">Username <big>*</big></label>
+            <input
+              type="email"
+              name="username"
+              id="username"
+              placeholder="example@gmail.com"
+              required
+            />
+            <p class="error emailError"></p>
+          </div>
+          <div class="file">
+            <label for="cv">Upload CV <big>*</big></label>
+            <input type="file" name="cv" id="cv" accept=".pdf" required />
+            <label for="cv" class="file-display"></label>
+            <p class="error fileError"></p>
+          </div>
+          <button type="submit" id="btn">
+            <span class="material-symbols-rounded">assignment</span>
+            <p>Apply</p>
+          </button>
+        </form>
+      </div>
+    </main>
+    <footer class="content" style="padding-bottom: 20px">
+      <p class="logo">Student Job Portal</p>
+      &copy;2025
+      <ul>
+        <li><a href="#">User Agreement</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Community</a></li>
+        <li><a href="#">Guidelines</a></li>
+        <li><a href="#">Cookie Policy</a></li>
+        <li><a href="#">Copyright Policy</a></li>
+        <li><a href="#">Send Feedback</a></li>
+      </ul>
+    </footer>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
