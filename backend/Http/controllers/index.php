@@ -1,3 +1,3 @@
 <?php
 
-view('index.view.php');
+echo 'this home page';

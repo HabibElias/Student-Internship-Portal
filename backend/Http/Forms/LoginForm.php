@@ -17,14 +17,12 @@ class LoginForm
         if (!Validator::string($attributes['password'], 7, 255)) {
             $this->errors['password'] = 'please enter a password at least 7 characters';
         }
-
-        return empty($this->errors);
     }
 
     /**
      * @throws ValidationException
      */
-    public static function validate($attributes): static
+    public static function validate($attributes)
     {
         $instance = new static($attributes);
 

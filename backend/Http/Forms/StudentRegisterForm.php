@@ -5,7 +5,7 @@ namespace Http\Forms;
 use Core\ValidationException;
 use Core\Validator;
 
-class RegisterForm
+class StudentRegisterForm
 {
     protected array $errors = [];
 
@@ -14,16 +14,31 @@ class RegisterForm
         if (!Validator::email($attributes['email'])) {
             $this->errors['email'] = 'please enter a valid email';
         }
-        if (!Validator::string($attributes['password'], 7, 255)) {
+        if (!Validator::string($attributes['password'], 8, 255)) {
             $this->errors['password'] = 'please enter a password at least 7 characters';
         }
-
-        return empty($this->errors);
+        if (!Validator::string($attributes['fName'], min:3)) {
+            $this->errors['fName'] = 'First Name must be at least 3 characters';
+        }
+        if (!Validator::string($attributes['lName'], min:3)) {
+            $this->errors['lName'] = 'Last Name must be at least 3 characters';
+        }
+        if(!Validator::gender($attributes['gender'])) {
+            $this->errors['gender'] = 'Please enter a valid gender';
+        }
+        if(!Validator::date($attributes['enDate'])) {
+            $this->errors['enDate'] = 'Please enter a valid date input y-m-d';
+        }
+        if(!Validator::date($attributes['grDate'])) {
+            $this->errors['grDate'] = 'Please enter a valid date input y-m-d';
+        }
     }
 
-    public static function validate($attribute): static
+    public static function validate($attribute)
     {
         $instance = new static($attribute);
+
+        // dd($instance);
 
         return $instance->failed() ? $instance->throw() : $instance;
     }

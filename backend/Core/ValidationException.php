@@ -4,8 +4,6 @@ namespace Core;
 
 class ValidationException extends \Exception
 {
-    public readonly array $errors;
-    public readonly array $old;
     /**
      * @throws ValidationException
      */
@@ -13,8 +11,8 @@ class ValidationException extends \Exception
     {
         $instance = new static;
 
-        $instance->errors = $errors;
-        $instance->old = $old;
+        Sessions::flash('errors', $errors);
+        Sessions::flash('old', $old);
 
         throw $instance;
     }

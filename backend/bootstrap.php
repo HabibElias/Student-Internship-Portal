@@ -15,5 +15,15 @@ $container->bind(Database::class, function () {
     return new Database($config['database'], $config['user'], $config['password']);
 });
 
+$container->bind('secret_key', function () {
+
+    $dotenv = Dotenv\Dotenv::createImmutable(base_path(""));
+    $dotenv->load();
+
+    // Now access env vars like this:
+
+    return $_ENV['JWT_SECRET_KEY'];
+});
+
 
 App::setContainer($container);
