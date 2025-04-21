@@ -3,14 +3,16 @@
 
 $router->get('/', "/index.php");
 
-$router->get('/todos', '/todo/index.php');
-
-$router->post('/students', '/registration/store.php');
+$router->post('/register', '/registration/store.php');
 
 $router->post('/login', '/session/store.php');
+
+$router->post('/logout', '/session/delete.php');
 
 $router->post('/verify', '/verify.php')->only('auth');
 
 $router->get('/refresh', '/refresh.php');
 
 $router->get('/departments', '/departments.php');
+
+$router->get('/image', "/image.php");

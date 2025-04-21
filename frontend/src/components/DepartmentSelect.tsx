@@ -15,14 +15,29 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useState } from "react";
+import { Dispatch, useState } from "react";
 import useDepartments from "@/hooks/useDepartments";
+import { UseFormSetValue } from "react-hook-form";
 
-export function DepartmentSelect() {
+interface Props {
+  value: number | undefined;
+  setValue: Dispatch<React.SetStateAction<number | undefined>>;
+  setDept: UseFormSetValue<{
+    fName: string;
+    lName: string;
+    gender: "male" | "female";
+    enDate: string;
+    grDate: string;
+    dept: number;
+    email: string;
+    password: string;
+    consent: boolean;
+  }>;
+}
+
+export function DepartmentSelect({ value, setDept, setValue }: Props) {
   const { isLoading, departments } = useDepartments();
-
   const [open, setOpen] = useState<boolean>(false);
-  const [value, setValue] = useState<string>("");
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -35,12 +50,14 @@ export function DepartmentSelect() {
           className="justify-between"
         >
           {value
-            ? departments.find((department) => department.name === value)?.name
+            ? departments.find(
+                (department) => department.id.toString() === value.toString(),
+              )?.name
             : "Select Department..."}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="w-[250px] p-0 sm:w-[400px]">
         <Command>
           <CommandInput placeholder="Search Department..." />
           <CommandList>
@@ -48,10 +65,15 @@ export function DepartmentSelect() {
             <CommandGroup>
               {departments.map((department) => (
                 <CommandItem
-                  key={department.name}
+                  key={department.id}
                   value={department.name}
-                  onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue);
+                  onSelect={(_) => {
+                    setValue(
+                      department.id === value
+                        ? undefined
+                        : Number(department.id),
+                    );
+                    setDept("dept", Number(department.id));
                     setOpen(false);
                   }}
                 >
@@ -59,7 +81,7 @@ export function DepartmentSelect() {
                   <Check
                     className={cn(
                       "ml-auto",
-                      value === department.name ? "opacity-100" : "opacity-0",
+                      value === department.id ? "opacity-100" : "opacity-0",
                     )}
                   />
                 </CommandItem>

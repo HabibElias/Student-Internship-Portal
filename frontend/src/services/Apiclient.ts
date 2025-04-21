@@ -8,4 +8,5 @@ export const axiosInstance = axios.create({
 
 export const axiosPrivate = axios.create({
   baseURL: url,
+  withCredentials: true,
 });

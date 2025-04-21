@@ -32,6 +32,9 @@ class StudentRegisterForm
         if(!Validator::date($attributes['grDate'])) {
             $this->errors['grDate'] = 'Please enter a valid date input y-m-d';
         }
+        if(!Validator::int($attributes['dept'])) {
+            $this->errors['dept'] = 'Please enter a valid department value';
+        }
     }
 
     public static function validate($attribute)

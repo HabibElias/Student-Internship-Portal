@@ -5,10 +5,13 @@ use Core\Database;
 use Firebase\JWT\JWT;
 
 header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Origin: http://localhost:5173");
+header("Access-Control-Allow-Credentials: true");
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
+
+$data = json_decode(file_get_contents("php://input"));
 
 
 $secret_key = App::resolve('secret_key');
@@ -38,6 +41,16 @@ if ($user && password_verify($password, $user['password'])) {
 
 
     // Send access token + refresh token (HttpOnly cookie)
+    if (isset($_COOKIE['refresh_token'])) {
+        setcookie('refresh_token', '', [
+            'expires' => time() - 3600,
+            'httponly' => true,
+            'secure' => false,
+            'samesite' => 'Strict'
+        ]);
+    }
+
+    // Set the new refresh_token cookie
     setcookie('refresh_token', $refreshToken, [
         'expires' => strtotime($expiresAt),
         'httponly' => true,
@@ -63,22 +76,13 @@ if ($user && password_verify($password, $user['password'])) {
 
 
     echo json_encode([
-        "status" => "success",
+        "status" => true,
         "token" =>  $accessToken,
-        "user" =>  [
-            "id" => $user['id'],
-            "user_type" => $user['user_type'],
-            "fName" => $user['firstName'],
-            "lName" => $user['lastName'],
-            "email" => $user['email'],
-            "gradTime" => $user['gradTime'],
-            "enrolledTime" => $user['enrolledTime'],
-            "profilePic" => $user['profile']
-        ]
+        "user" => $user
     ]);
 } else {
     echo json_encode([
-        "status" => "error",
+        "status" => false,
         "message" => "Invalid email or password"
     ]);
 }

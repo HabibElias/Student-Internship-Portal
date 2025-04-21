@@ -8,6 +8,7 @@ import { LogIn } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { NavLink } from "react-router-dom";
 
 export type FormData = z.infer<typeof LoginSchema>;
 
@@ -95,9 +96,9 @@ const LoginPage = () => {
         <div className="text-xs">
           <p>
             Doesn't have an account?{" "}
-            <a href="#" className="text-blue-400 hover:underline">
+            <NavLink to={"/register"} className="text-blue-400 hover:underline">
               click here
-            </a>
+            </NavLink>
           </p>
         </div>
 

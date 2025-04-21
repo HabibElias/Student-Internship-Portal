@@ -1,19 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 not found</title>
-</head>
-
-<body>
-
-    <main class="p-4 flex flex-col gap-y-2">
-        <h1 class="text-2xl font-bold">Page Not Found</h1>
-        <a href="/" class="text-blue-500 hover:underline">Go to home</a>
-    </main>
-
-</body>
-
-</html>
+header("Access-Control-Allow-Origin: http://localhost:5173");
+header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+header("Access-Control-Allow-Credentials: true");
+header("Content-Type: application/json");
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+} else
+    http_response_code(404);
+echo json_encode(['status' => false, "message" => "NOT FOUND"]);
+exit;

@@ -1,6 +1,7 @@
-import { axiosInstance, axiosPrivate } from "@/services/Apiclient";
-import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
-import { error } from "console";
+import User from "@/models/User";
+import { axiosPrivate } from "@/services/Apiclient";
+import { AxiosError, InternalAxiosRequestConfig } from "axios";
+import { CheckCircle2 } from "lucide-react";
 import {
   createContext,
   ReactNode,
@@ -9,15 +10,15 @@ import {
   useLayoutEffect,
   useState,
 } from "react";
+import { toast } from "sonner";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 interface AuthContextType {
-    login: (email: string, password: string) => void;
-    user: any;
-    error: string;
+  logout: () => void;
+  login: (email: string, password: string) => void;
+  user?: User;
 }
-
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
@@ -29,16 +30,9 @@ export const useAuth = () => {
 
 interface Response {
   token?: string;
-  status: string;
+  status: boolean;
   message?: string;
-}
-
-interface error {
-  response: {
-    message: string;
-    status: string;
-    user: any;
-  };
+  user: User;
 }
 
 // Extend InternalAxiosRequestConfig to include _retry
@@ -48,27 +42,66 @@ interface ExtendedAxiosRequestConfig extends InternalAxiosRequestConfig {
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>();
-  const [error,setError] = useState<string>("");
-  const [user, setUser] = useState();
+  const [user, setUser] = useState<User>();
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await axiosInstance.post<Response>("/login", JSON.stringify({email,password}));
+      const response = await axiosPrivate.post<Response>(
+        "/login",
+        JSON.stringify({ email, password }),
+      );
 
       console.log(response);
-      
 
-      if (response.data.status == "success") {
-        setToken(response.data.token!);
-        console.log(response.data);
+      if (response.data.status) {
+        setToken(response.data.token ?? "");
+        setTimeout(() => setUser(response.data.user ?? ""), 1500);
+        toast("Log In Successfully", {
+          icon: <CheckCircle2 />,
+          style: { display: "flex", alignItems: "center", gap: "1rem" },
+        });
+      } else {
+        toast(response.data.message);
       }
     } catch (e) {
       setToken(null);
     }
   };
 
+  const logout = async () => {
+    axiosPrivate
+      .post<Response>("/logout")
+      .then((response) => {
+        if (response.data.status) {
+          setUser(undefined);
+          setToken(null);
+          console.log(response.data);
+        }
+
+        window.location.href = "/";
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
   useEffect(() => {
-    const fetchMe = () => {};
+    const fetchMe = async () => {
+      console.log("fetching");
+
+      try {
+        const response = await axiosPrivate.get<Response>("/refresh");
+
+        console.log(response);
+
+        if (response.data.status) {
+          setToken(response.data.token ?? "");
+          setUser(response.data.user ?? "");
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
     fetchMe();
   }, []);
@@ -81,11 +114,11 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
             ? `Bearer ${token}`
             : config.headers.Authorization;
 
+        config.withCredentials = true;
+
         return config;
       },
     );
-
-    axiosPrivate.defaults.withCredentials = true;
 
     return () => {
       axiosPrivate.interceptors.request.eject(authInterceptors);
@@ -100,13 +133,12 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         if (error.response?.status === 403) {
           try {
-            const response =
-              await axiosPrivate.get<Response>("/api/refreshToken");
+            const response = await axiosPrivate.get<Response>("/refresh");
 
             setToken(response.data.token);
 
             originalRequest!.headers.Authorization = `Bearer ${response.data.token}`;
-            originalRequest._retry = true;
+            originalRequest._retry = false;
 
             return axiosPrivate(originalRequest);
           } catch (error) {
@@ -123,9 +155,11 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
   }, []);
 
-  return <AuthContext.Provider value={{login, user, error}}>
-    {children}
-  </AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ logout, login, user }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;
