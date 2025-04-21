@@ -16,3 +16,5 @@ $router->get('/refresh', '/refresh.php');
 $router->get('/departments', '/departments.php');
 
 $router->get('/image', "/image.php");
+
+$router->get('/jobs', '/jobs/index.php');
