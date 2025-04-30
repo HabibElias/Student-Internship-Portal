@@ -39,6 +39,7 @@ if (!$user_type) {
     exit;
 }
 
+
 $form = $user_type === 'student' ?
     StudentRegisterForm::validate(
         [
@@ -113,34 +114,43 @@ if ($form) {
             }
         }
 
+        $verifyToken = bin2hex(random_bytes(32));
 
+
+
+
+        // Send email
         // Save user data and file path to the database
-        // dd($dept);
-        $db->query(
-            "INSERT INTO users (user_type, email, password, firstName, lastName, gender, enrolledTime, gradTime, dept_id, profile, companyName, location, compImg, description, webLink, facebookLink, instagramLink) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            $user = [
-                $user_type,
-                $email,
-                password_hash($password, PASSWORD_BCRYPT),
-                $fName,
-                $lName,
-                $gender,
-                $enDate,
-                $grDate,
-                $dept,
-                $fileName,
-                $companyName,
-                $location,
-                $cpFileName,
-                $desc,
-                $webLink ?? null,
-                $facebookLink ?? null,
-                $instagramLink ?? null // Save the file name or path
-            ]
-        );
+        $isEmailSent = sendVerificationEmail($email, $verifyToken);
 
-        echo json_encode(["status" => true, "message" => "User registered successfully.", "user" => $user]);
-        //
+        if ($isEmailSent) {
+            $db->query(
+                "INSERT INTO users (user_type, email, password, firstName, lastName, gender, enrolledTime, gradTime, dept_id, profile, companyName, location, compImg, description, webLink, facebookLink, instagramLink, verify_token) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                $user = [
+                    $user_type,
+                    $email,
+                    password_hash($password, PASSWORD_BCRYPT),
+                    $fName,
+                    $lName,
+                    $gender,
+                    $enDate,
+                    $grDate,
+                    $dept,
+                    $fileName,
+                    $companyName,
+                    $location,
+                    $cpFileName,
+                    $desc,
+                    $webLink ?? null,
+                    $facebookLink ?? null,
+                    $instagramLink ?? null,
+                    $verifyToken // Save the file name or path
+                ]
+            );
+            echo json_encode(["status" => true, "message" => "User registered successfully.", "user" => $user]);
+        } else {
+            echo json_encode(["status" => false, "message" => "Sending Email Failed Try Again"]);
+        }
     } catch (Exception $e) {
         echo json_encode(["status" => false, "message" => $e->getMessage()]);
     }
@@ -148,7 +158,7 @@ if ($form) {
     echo json_encode([
         "status" => false,
         "message" => [
-            'errors' => $form ? $form->getErrors() : 'Validation failed.'
+            'errors' => $form ? $form->getErrors() : 'Validation failed. or email sent failed'
         ]
     ]);
 }

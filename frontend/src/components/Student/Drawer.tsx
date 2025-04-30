@@ -92,20 +92,18 @@ const CustomDrawer = () => {
                         src={`${import.meta.env.VITE_API_URL}/image?img=${user.profile}`}
                       />
                       <AvatarFallback className="rounded-full bg-gray-500 p-2 text-white">
-                        {`${user.firstName.slice(0, 1).toUpperCase()} ${user.lastName
-                          .slice(0, 1)
-                          .toUpperCase()}`}
+                        {`${user.firstname.slice(0, 1).toUpperCase()} ${user.lastname.slice(0, 1).toUpperCase()}`}
                       </AvatarFallback>
                     </Avatar>
                     <div className="text-start">
-                      <div>{`${user.firstName} ${user.lastName}`}</div>
+                      <div>{`${user.firstname} ${user.lastname}`}</div>
                       <div className="text-xs text-gray-400">{user.email}</div>
                     </div>
                   </div>
                   <ChevronsUpDown />
                 </div>
               </PopoverTrigger>
-              <PopoverContent className="mb-2 ml-22 w-40">
+              <PopoverContent className="mb-3">
                 <div className="flex flex-col gap-3 *:cursor-pointer">
                   <Button variant={"outline"}>
                     <User />

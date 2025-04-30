@@ -25,7 +25,7 @@ $total_pages = (int) ceil(($all_jobs['total'] ?? 0) / $limit);
 
 
 $jobs = $db
-    ->prepare('SELECT job.id, company_id, compImg, title, remote, full_time, job_level, job.description, posted_time, skills, deadline FROM job join users on users.id = job.company_id limit :limit offset :offset')
+    ->prepare('SELECT job.id, company_id, companyname, compImg, title, remote, full_time, job_level, job.description, posted_time, skills, deadline FROM job join users on users.id = job.company_id limit :limit offset :offset')
     ->bindParam(':limit', $limit, PDO::PARAM_INT)
     ->bindParam(':offset', $offset, PDO::PARAM_INT)
     ->execute()

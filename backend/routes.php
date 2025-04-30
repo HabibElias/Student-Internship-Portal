@@ -18,3 +18,5 @@ $router->get('/departments', '/departments.php');
 $router->get('/image', "/image.php");
 
 $router->get('/jobs', '/jobs/index.php');
+
+$router->get('/verify', '/email/verification.php');

@@ -5,13 +5,14 @@ import { CompSchema } from "@/models/registerSchema";
 import { axiosInstance } from "@/services/Apiclient";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@radix-ui/react-label";
-import { Check, NotebookPen } from "lucide-react";
+import { Check, Loader, NotebookPen } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { Textarea } from "../ui/textarea";
+import { useAuth } from "@/providers/AuthProvider";
 
-type FormData = z.infer<typeof CompSchema>;
+export type FormData = z.infer<typeof CompSchema>;
 
 const CompanyForm = () => {
   const {
@@ -22,54 +23,10 @@ const CompanyForm = () => {
     resolver: zodResolver(CompSchema),
   });
 
-  const onSubmit = async (data: FormData) => {
-    try {
-      const formData = new FormData();
-
-      // Append form fields
-      formData.append("user_type", "company"); // Assuming user_type is always "company"
-      formData.append("compName", data.compName);
-      formData.append("password", data.password);
-      formData.append("location", data.location);
-      formData.append("description", data.description);
-      formData.append("email", data.email);
-      formData.append("webLink", data.webLink ?? "");
-      formData.append("instagramLink", data.instagramLink ?? "");
-      formData.append("facebookLink", data.facebookLink ?? "");
-
-      // Append the file (profile picture)
-      const fileInput = document.querySelector<HTMLInputElement>("#cp");
-
-      if (fileInput?.files?.[0]) {
-        formData.append("compImg", fileInput.files[0]);
-      }
-
-      // Send the POST request using axios
-      const response = await axiosInstance.post(`/register`, formData);
-
-      // Handle the response
-      console.log("Response from backend:", response.data);
-
-      if (response.data.status) {
-        toast("Registration successful!", {
-          icon: <Check />,
-          style: { background: "#f1f2fa" },
-        });
-      } else {
-        toast(`Error: ${response.data.message ?? ""}`, {
-          description: `${JSON.stringify(data)}`,
-        });
-      }
-    } catch (err: any) {
-      console.error("Error:", err);
-      toast(`${err.response.data.message}`, {
-        style: {
-          background: "#e83232",
-          borderColor: "ff5136",
-          color: "white",
-        },
-      });
-    }
+  const { registerCompany, fetchState } = useAuth();
+  
+  const onSubmit =  (data: FormData) => {
+    registerCompany(data);
   };
 
   return (
@@ -264,12 +221,21 @@ const CompanyForm = () => {
         </div>
         {/* BTN */}
         <Button
-          onClick={() => console.log(errors)}
           className={cn(
-            "mt-6 w-[60%] cursor-pointer bg-[#7D7ADA] py-6 text-lg font-[600] hover:bg-[#5c5bb9] md:w-[30%]",
+            "w-[60%] cursor-pointer bg-[#7D7ADA] py-6 text-lg font-[600] hover:bg-[#5c5bb9] md:w-[30%]",
           )}
+          disabled={fetchState === "registering"}
         >
-          Register
+          {fetchState == "ready" ? (
+            "Register"
+          ) : (
+            <>
+              <div className="animate-spin">
+                <Loader />
+              </div>
+              Registering
+            </>
+          )}
         </Button>
         <div className="text-xs">
           <p>

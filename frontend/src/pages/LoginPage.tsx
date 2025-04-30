@@ -3,12 +3,12 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { LoginSchema } from "@/models/LoginSchema";
 import { useAuth } from "@/providers/AuthProvider";
-import { Label } from "@radix-ui/react-label";
-import { LogIn } from "lucide-react";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { Label } from "@radix-ui/react-label";
+import { Loader, LogIn } from "lucide-react";
+import { useForm } from "react-hook-form";
 import { NavLink } from "react-router-dom";
+import { z } from "zod";
 
 export type FormData = z.infer<typeof LoginSchema>;
 
@@ -21,7 +21,7 @@ const LoginPage = () => {
     resolver: zodResolver(LoginSchema),
   });
 
-  const { login } = useAuth();
+  const { login, fetchState } = useAuth();
 
   const onSubmit = async (data: FormData) => {
     const email = data.email;
@@ -90,8 +90,18 @@ const LoginPage = () => {
           className={cn(
             "w-[60%] cursor-pointer bg-[#7D7ADA] py-6 text-lg font-[600] hover:bg-[#5c5bb9] md:w-[30%]",
           )}
+          disabled={fetchState === "logging"}
         >
-          Log In
+          {fetchState == "ready" ? (
+            "Log In"
+          ) : (
+            <>
+              <div className="animate-spin">
+                <Loader />
+              </div>
+              Logging In
+            </>
+          )}
         </Button>
         <div className="text-xs">
           <p>

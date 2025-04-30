@@ -1,17 +1,24 @@
+-- Example configuration for Supabase
+-- Ensure the hostname is correct
+CREATE DATABASE SJP WITH OWNER = 'your_username'
+    ENCODING = 'UTF8'
+    CONNECTION LIMIT = -1;
+
 create database SJP;
 
-use SJP;
+-- Removed as PostgreSQL does not support the USE statement
+-- Ensure you are connected to the correct database before running the script
 
 CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_type NVARCHAR (50) NOT NULL CHECK (
+    id SERIAL PRIMARY KEY,
+    user_type VARCHAR (50) NOT NULL CHECK (
         user_type IN ('student', 'company')
     ),
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    firstName VARCHAR(255),
-    lastName VARCHAR(255),
-    gender NVARCHAR (50) check (gender IN ('male', 'female')),
+    firstname VARCHAR(255),
+    lastname VARCHAR(255),
+    gender VARCHAR (50) CHECK (gender IN ('male', 'female')),
     enrolledTime DATE,
     gradTime DATE,
     dept_id INT NULL,
@@ -28,14 +35,14 @@ CREATE TABLE users (
 select * from users;
 
 DROP TABLE users;
-DESCRIBE users;
+
 
 CREATE TABLE refresh_tokens (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  user_id INT NOT NULL,
-  token VARCHAR(255) NOT NULL,
-  expires_at DATETIME NOT NULL,
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    token VARCHAR(255) NOT NULL,
+    expires_at TIMESTAMP NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 drop Table refresh_tokens;
@@ -46,7 +53,7 @@ DESCRIBE users;
 select * from refresh_tokens;
 
 CREATE TABLE IF NOT EXISTS department(
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     name text not null
 );
 
@@ -56,20 +63,20 @@ VALUES
     ('Food Science And Technology');
 select * from department;
 
-create table job (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    company_id int not null,
-    title VARCHAR(255) not NULL,
+CREATE TABLE job (
+    id int auto_increment PRIMARY KEY,
+    company_id INT NOT NULL,
+    title VARCHAR(255) NOT NULL,
     remote BOOLEAN DEFAULT false,
     full_time BOOLEAN DEFAULT false,
-    job_level NVARCHAR (50) NOT NULL CHECK (
-        job_level IN ('junior', 'mid-senior','senior')
+    job_level VARCHAR(50) NOT NULL CHECK (
+        job_level IN ('junior', 'mid-senior', 'senior')
     ),
-    description text not NULL,
-    posted_time DATETIME DEFAULT CURRENT_TIMESTAMP,
-    skills text not null,
-    deadline DATETIME not NULL,
-    Foreign Key (company_id) REFERENCES users(id)
+    description TEXT NOT NULL,
+    posted_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    skills TEXT NOT NULL,
+    deadline TIMESTAMP NOT NULL,
+    FOREIGN KEY (company_id) REFERENCES users(id)
 );
 INSERT INTO job (company_id, title, remote, full_time, job_level, description, skills, deadline)
     VALUES
@@ -104,4 +111,5 @@ drop table job;
 
 DESCRIBE job;
 
-SELECT * FROM job LIMIT 10 OFFSET 0;
+select * from users;
+

@@ -13,7 +13,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@radix-ui/react-popover";
+} from "@/components/ui/popover";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { Button } from "../ui/button";
 import CustomDrawer from "./Drawer";
@@ -28,13 +28,13 @@ const Navbar = () => {
   ]);
 
   return (
-    <header className="flex items-center justify-between bg-[rgba(191,189,255,0.54)] px-4 xl:px-12 py-8 font-[poppins]">
+    <header className="flex items-center justify-between bg-[rgba(191,189,255,0.54)] px-4 py-8 font-[poppins] xl:px-12">
       <Logo />
 
       <div className="md:hidden">
         <CustomDrawer />
       </div>
-      <nav className="hidden gap-12 md:inline-flex flex-wrap">
+      <nav className="hidden flex-wrap gap-12 md:inline-flex">
         {routes.map((route, index) => (
           <NavLink
             key={index}
@@ -59,29 +59,26 @@ const Navbar = () => {
                   src={`${import.meta.env.VITE_API_URL}/image?img=${user.profile}`}
                 />
                 <AvatarFallback className="rounded-full bg-gray-500 p-2 text-white">
-                  {`${user.firstName.slice(0, 1).toUpperCase()} ${user.lastName
-                    .slice(0, 1)
-                    .toUpperCase()}`}
+                  {user &&
+                    `${user.firstname.slice(0, 1).toUpperCase()} ${user.lastname.slice(0, 1).toUpperCase()}`}
                 </AvatarFallback>
               </Avatar>
             </PopoverTrigger>
-            <PopoverContent>
-              <div className="mt-3 mr-10 grid gap-4 rounded-md bg-white/50 p-3 backdrop-blur-2xl">
-                <div>
-                  <div>{`${user.firstName} ${user.lastName}`}</div>
-                  <div className="text-xs text-gray-400">{user.email}</div>
-                </div>
-                <div className="h-0.5 w-full rounded-full bg-gray-400"></div>
-                <div className="flex flex-col gap-3 *:cursor-pointer">
-                  <Button variant={"outline"}>
-                    <User />
-                    Edit Profile
-                  </Button>
-                  <Button variant={"outline"} onClick={() => logout()}>
-                    <LogOut />
-                    Logout
-                  </Button>
-                </div>
+            <PopoverContent className="mt-3 mr-10 grid gap-4 rounded-md bg-white/50 p-3 backdrop-blur-2xl">
+              <div>
+                <div>{`${user.firstname} ${user.lastname}`}</div>
+                <div className="text-xs text-gray-400">{user.email}</div>
+              </div>
+              <div className="h-0.5 w-full rounded-full bg-gray-400"></div>
+              <div className="flex flex-col gap-3 *:cursor-pointer">
+                <Button variant={"outline"}>
+                  <User />
+                  Edit Profile
+                </Button>
+                <Button variant={"outline"} onClick={() => logout()}>
+                  <LogOut />
+                  Logout
+                </Button>
               </div>
             </PopoverContent>
           </Popover>

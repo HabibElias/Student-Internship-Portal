@@ -10,9 +10,8 @@ $container = new Container();
 
 
 $container->bind(Database::class, function () {
-
     $config = require base_path('config.php');
-    return new Database($config['database'], $config['user'], $config['password']);
+    return new Database($config, $config['user'], $config['password']);
 });
 
 $container->bind('secret_key', function () {

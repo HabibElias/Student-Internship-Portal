@@ -1,18 +1,17 @@
+import { DepartmentSelect } from "@/components/DepartmentSelect";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import schema from "@/models/registerSchema";
+import { useAuth } from "@/providers/AuthProvider";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Label } from "@radix-ui/react-label";
-import { Check, NotebookPen } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import { Loader, NotebookPen } from "lucide-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import schema from "@/models/registerSchema";
-import { axiosInstance } from "@/services/Apiclient";
-import { DepartmentSelect } from "@/components/DepartmentSelect";
-import { toast } from "sonner";
-import { useState } from "react";
 
-type FormData = z.infer<typeof schema>;
+export type FormData = z.infer<typeof schema>;
 
 const StudentForm = () => {
   const {
@@ -26,55 +25,10 @@ const StudentForm = () => {
 
   const [dept, setDept] = useState<number | undefined>();
 
+  const { registerStudent, fetchState } = useAuth();
+
   const onSubmit = async (data: FormData) => {
-    try {
-      const formData = new FormData();
-
-      // Append form fields
-      formData.append("user_type", "student"); // Assuming user_type is always "student"
-      formData.append("fName", data.fName);
-      formData.append("dept", data.dept.toString());
-      formData.append("lName", data.lName);
-      formData.append("gender", data.gender);
-      formData.append("enDate", data.enDate);
-      formData.append("grDate", data.grDate);
-      formData.append("email", data.email);
-      formData.append("password", data.password);
-
-      // Append the file (profile picture)
-      const fileInput = document.querySelector<HTMLInputElement>("#pp");
-
-      if (fileInput?.files?.[0]) {
-        formData.append("profilePic", fileInput.files[0]);
-      }
-
-      // Send the POST request using axios
-      const response = await axiosInstance.post(`/register`, formData);
-
-      // Handle the response
-      console.log("Response from backend:", response.data);
-
-      if (response.data.status) {
-        toast("Registration successful!", {
-          icon: <Check />,
-          style: { background: "#f1f2fa" },
-        });
-      } else {
-        toast(`Error: ${response.data.message ?? ""}`, {description: `${JSON.stringify(data)}`});
-      }
-    } catch (err: any) {
-      console.error("Error:", err);
-      toast(
-        `${err.response.data.message}`,
-        {
-          style: {
-            background: "#e83232",
-            borderColor: "ff5136",
-            color: "white",
-          },
-        },
-      );
-    }
+    registerStudent(data);
   };
 
   return (
@@ -272,10 +226,20 @@ const StudentForm = () => {
         {/* BTN */}
         <Button
           className={cn(
-            "mt-6 w-[60%] cursor-pointer bg-[#7D7ADA] py-6 text-lg font-[600] hover:bg-[#5c5bb9] md:w-[30%]",
+            "w-[60%] cursor-pointer bg-[#7D7ADA] py-6 text-lg font-[600] hover:bg-[#5c5bb9] md:w-[30%]",
           )}
+          disabled={fetchState === "registering"}
         >
-          Register
+          {fetchState == "ready" ? (
+            "Register"
+          ) : (
+            <>
+              <div className="animate-spin">
+                <Loader />
+              </div>
+              Registering
+            </>
+          )}
         </Button>
 
         <div className="text-xs">

@@ -13,7 +13,7 @@ export const Navbar = () => {
   const routes = ["Home", "About", "Contact"];
 
   return (
-    <header className="flex items-center justify-between px-8 py-8 text-white xl:px-20">
+    <header className="flex items-center bg-[#0e181d] justify-between px-8 py-8 text-white xl:px-20">
       <Logo />
 
       <nav>
@@ -24,7 +24,7 @@ export const Navbar = () => {
           {routes.map((route, index) => (
             <a
               key={index}
-              href={`${routesId.get(route)}`}
+              href={`/${routesId.get(route)}`}
               className="text-lg font-semibold transition-opacity duration-200 hover:opacity-80"
             >
               {route}

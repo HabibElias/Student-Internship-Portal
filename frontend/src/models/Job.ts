@@ -1,7 +1,8 @@
 export interface Job {
   id: number;
   company_id: number;
-  compImg: string;
+  companyname: string;
+  compimg: string;
   title: string;
   remote: boolean;
   full_time: boolean;

@@ -5,14 +5,23 @@ import LoginPage from "@/pages/LoginPage.tsx";
 import { Layout as FormLayout } from "./components/Forms/Layout.tsx";
 import RegisterPage from "./pages/RegisterPage.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
-import PrivateStudent from "./components/Student/PrivateStudent.tsx";
+import StudentLayout from "./components/Student/StudentLayout.tsx";
+import PrivateRoutes from "./components/PrivateRoutes.tsx";
+import Unauthorized from "./components/Unauthorized.tsx";
 
 const routes = createBrowserRouter([
   {
     path: "",
     element: <LandLayOut />,
-    children: [{ path: "", element: <HomePage /> }],
+    children: [
+      { path: "", element: <HomePage /> },
+      {
+        path: "/unauthorized",
+        element: <Unauthorized />,
+      },
+    ],
   },
+
   {
     element: <FormLayout />,
     children: [
@@ -21,8 +30,18 @@ const routes = createBrowserRouter([
     ],
   },
   {
-    element: <PrivateStudent />,
-    children: [{ path: "/dashboard", element: <Dashboard /> }],
+    element: <PrivateRoutes />,
+    children: [
+      {
+        element: <StudentLayout />,
+        children: [
+          {
+            path: "/dashboard",
+            element: <Dashboard />,
+          },
+        ],
+      },
+    ],
   },
 ]);
 

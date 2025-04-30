@@ -23,7 +23,7 @@ $imagePath = base_path("uploads/{$imgName}");
 if (file_exists($imagePath)) {
     $image = imagecreatefromjpeg($imagePath) ?? false;
     if ($image) {
-        $resizedImage = imagescale($image, 700, 600);
+        $resizedImage = imagescale($image, 400, 200);
         if ($resizedImage) {
             imagejpeg($resizedImage);
             imagedestroy($resizedImage);

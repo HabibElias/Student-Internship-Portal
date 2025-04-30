@@ -1,38 +1,17 @@
-import { Job } from "@/models/Job";
-import { axiosInstance, axiosPrivate } from "@/services/Apiclient";
-import { useEffect, useState } from "react";
-
-interface FetchJobsResponse {
-  data: Job[];
-  total: number;
-  page: number;
-  hasNext: boolean;
-  hasPrevious: boolean;
-}
+import Loading from "@/components/Loading";
+import StudentDashboard from "@/components/Student/StudentDashboard";
+import { useAuth } from "@/providers/AuthProvider";
 
 const Dashboard = () => {
-  const [jobs, setJobs] = useState<Job[]>([]);
+  const { user } = useAuth();
 
-  useEffect(() => {
-    axiosPrivate
-      .get<FetchJobsResponse>("/jobs")
-      .then((res) => {
-        setJobs(res.data.data);
-      })
-      .catch((err) => console.error(err));
-  }, []);
+  if (!user) return <Loading />;
 
-  return (
-    <div>
-      {jobs.map((job, index) => {
-        return (
-          <div key={index} className="text-black">
-            <div>{job.title}</div>
-          </div>
-        );
-      })}
-    </div>
-  );
+  if (user.user_type == "student") {
+    return <StudentDashboard />;
+  }
+
+  return <div></div>; 
 };
 
 export default Dashboard;

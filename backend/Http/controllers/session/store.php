@@ -2,7 +2,9 @@
 
 use Core\App;
 use Core\Database;
+use Core\Response;
 use Firebase\JWT\JWT;
+use GuzzleHttp\Psr7\Message;
 
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: http://localhost:5173");
@@ -27,8 +29,19 @@ $db = App::resolve(Database::class);
 
 $user = $db->query('SELECT * FROM users where email = :email', [":email" => $email])->find();
 
+if(!$user) {
+    echo json_encode(['status' => false, 'message' => 'No Account with this email']);
+    exit;
+}
+
+if ($user && !$user['is_verified']) {
+    echo json_encode(['status' => false, 'message' => 'Verify Your Email Account']);
+    exit;
+}
+
 
 if ($user && password_verify($password, $user['password'])) {
+
     $accessPayload = [
         "iss" => "localhost",
         "iat" => time(),

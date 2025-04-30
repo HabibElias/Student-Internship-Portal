@@ -2,16 +2,20 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { Navbar } from "./Navbar.tsx";
 import Footer from "./Footer.tsx";
 import { useAuth } from "@/providers/AuthProvider.tsx";
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
+import "./style.css";
+import Loading from "../Loading.tsx";
 
 export const Layout = () => {
-  const { user } = useAuth();
+  const { user, fetchState } = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (user) navigate("/dashboard");
     console.log(user);
   }, [user]);
+
+  if (fetchState == "notReady") return <Loading />;
 
   return (
     <div className="relative flex flex-col font-[poppins]">

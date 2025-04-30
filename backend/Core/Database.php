@@ -4,6 +4,7 @@
 namespace Core;
 
 use PDO;
+use PDOException;
 
 class Database
 {
@@ -12,10 +13,14 @@ class Database
 
     public function __construct($config, $username = 'root', $password = '')
     {
+        // Ensure the hostname in $config is correct
+        $dsn = "{$config['database']['type']}:host={$config['database']['host']};port={$config['database']['port']};dbname={$config['database']['dbname']};options='--client_encoding=UTF8'";
 
-        $dsn = 'mysql:' . http_build_query($config, '', ';');
-
-        $this->conn = new PDO($dsn, $username, $password, [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]);
+        try {
+            $this->conn = new PDO($dsn, $username, $password, [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]);
+        } catch (PDOException $e) {
+            die("Database connection failed: " . $e->getMessage() . ". Please verify the hostname and network connectivity.");
+        }
     }
 
     public function prepare($query)
