@@ -1,22 +1,19 @@
 import { useAuth } from "@/providers/AuthProvider";
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
+import Loading from "./Loading";
 
 const PrivateRoutes = () => {
+  const { user, fetchState } = useAuth();
   const navigate = useNavigate();
-  const { user } = useAuth();
-  const [mounted, setMounted] = useState(false);
-  const ref = useRef<boolean | null>(null);
 
   useEffect(() => {
-    if (!mounted && !ref.current) {
-      if (!user) {
-        navigate("/unauthorized");
-      }
-      setMounted(true);
-      ref.current = true;
+    if (fetchState === "ready") {
+      if (!user) navigate("/login");
     }
-  }, []);
+  }, [user, fetchState === "notReady"]);
+
+  if (fetchState === "notReady") return <Loading />;
 
   return (
     <div>

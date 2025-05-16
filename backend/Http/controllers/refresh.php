@@ -37,6 +37,35 @@ if (!$token) {
 
 $user = $db->query('SELECT * from users where id = ?', [$token['user_id']])->find();
 
+if ($user['user_type'] === 'student') {
+    $student = $db->query(
+        'SELECT s.* FROM users u JOIN students s ON u.id = s.user_id WHERE u.id = :id',
+        [
+            'id' => $token['user_id']
+        ]
+    )->findOrFail();
+
+    $user = [
+        'id' => $student['user_id'],
+        'email' => $user['email'],
+        'user_type' => 'student',
+        'data' => $student
+    ];
+} else {
+    $company = $db->query(
+        'SELECT c.* FROM users u JOIN companies c ON u.id = c.user_id WHERE u.email = :email',
+        [
+            'email' => $email
+        ]
+    )->findOrFail();
+
+    $user = [
+        'id' => $company['user_id'],
+        'email' => $user['email'],
+        'user_type' => 'company',
+        'data' => $company
+    ];
+}
 $accessPayload = [
     "iss" => "localhost",
     "iat" => time(),

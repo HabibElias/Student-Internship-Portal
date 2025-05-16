@@ -25,8 +25,6 @@ class Registrar
             // match the user with its account
             $user = $db->query('SELECT * from user where email = :email', ['email' => $attributes['email']])->find();
 
-            Authenticator::login($user);
-
             return true;
         }
 

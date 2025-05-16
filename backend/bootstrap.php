@@ -14,6 +14,7 @@ $container->bind(Database::class, function () {
     return new Database($config, $config['user'], $config['password']);
 });
 
+
 $container->bind('secret_key', function () {
 
     $dotenv = Dotenv\Dotenv::createImmutable(base_path(""));

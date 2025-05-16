@@ -1,4 +1,4 @@
-import { DepartmentSelect } from "@/components/DepartmentSelect";
+import { DepartmentSelect } from "@/components/Student/DepartmentSelect";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -10,6 +10,7 @@ import { Loader, NotebookPen } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import ImageInput from "../ImageInput";
 
 export type FormData = z.infer<typeof schema>;
 
@@ -58,7 +59,7 @@ const StudentForm = () => {
               <Label htmlFor="fName">First Name *</Label>
               <Input
                 id="fName"
-                className={cn("p-5", errors.fName && "border-red-400")}
+                className={cn("mt-2 p-5", errors.fName && "border-red-400")}
                 type="text"
                 {...register("fName")}
                 placeholder="Abbé"
@@ -75,7 +76,7 @@ const StudentForm = () => {
                 id="lName"
                 {...register("lName")}
                 type="text"
-                className={cn("p-5", errors.lName && "border-red-400")}
+                className={cn("mt-2 p-5", errors.lName && "border-red-400")}
                 placeholder="Doha"
               />
               {errors.lName && (
@@ -89,7 +90,7 @@ const StudentForm = () => {
           {/* GENDER */}
           <div>
             <Label htmlFor="male">Gender *</Label>
-            <div className="flex items-center gap-3">
+            <div className="mt-2 flex items-center gap-3">
               <div className="flex items-center gap-2 rounded-md bg-[#F8F7FF] p-2">
                 <input
                   type="radio"
@@ -118,7 +119,7 @@ const StudentForm = () => {
 
           {/* DEPARTMENT */}
           <div className="flex flex-col">
-            <Label>Department</Label>
+            <Label className="mb-2">Department</Label>
             <input
               type="number"
               className="[display:none]"
@@ -135,19 +136,14 @@ const StudentForm = () => {
           </div>
 
           {/* DATES */}
-          <div className="-mt-2 grid w-full grid-cols-1 gap-1">
-            <div className="my-3 flex flex-1 flex-col items-start justify-center">
-              <Label htmlFor="enD">Enrolled Date *</Label>
-              <Input type="date" className="w-max" {...register("enDate")} />
-              {errors.enDate && (
-                <p className="py-2 text-xs text-red-400">
-                  {errors.enDate.message}
-                </p>
-              )}
-            </div>
+          <div className="grid w-full grid-cols-1 gap-1">
             <div className="flex flex-1 flex-col items-start justify-center">
               <Label htmlFor="grD">Graduation Date *</Label>
-              <Input type="date" className="w-max" {...register("grDate")} />
+              <Input
+                type="date"
+                className="mt-2 w-max"
+                {...register("grDate")}
+              />
               {errors.grDate && (
                 <p className="py-2 text-xs text-red-400">
                   {errors.grDate.message}
@@ -161,7 +157,7 @@ const StudentForm = () => {
             <Label htmlFor="sEmail">Student Email *</Label>
             <Input
               id="sEmail"
-              className={cn("p-5", errors.email && "border-red-400")}
+              className={cn("mt-2 p-5", errors.email && "border-red-400")}
               {...register("email")}
               type="email"
               placeholder="abebe.beso@aastustudent.edu.et"
@@ -178,7 +174,7 @@ const StudentForm = () => {
             <Label htmlFor="password">Password *</Label>
             <Input
               id="password"
-              className={cn("p-5", errors.password && "border-red-400")}
+              className={cn("mt-2 p-5", errors.password && "border-red-400")}
               {...register("password")}
               type="password"
               placeholder="*******"
@@ -191,16 +187,8 @@ const StudentForm = () => {
           </div>
 
           {/* PROFILE PICTURE */}
-          <div className="flex flex-col sm:items-start">
-            <Label htmlFor="pp">Profile Pic</Label>
-            <input
-              id="pp"
-              className="w-full cursor-pointer rounded bg-[url(@/assets/Forms/choose.svg)] bg-cover bg-center bg-no-repeat px-2 py-14 text-xs text-purple-600 shadow-xs ring-1 ring-[#e5e5e5]"
-              type="file"
-              accept="image/*"
-              name="pp"
-            />
-          </div>
+          <ImageInput id="pp" labelName="Profile Image" />
+
           <div className="w-full">
             <Label htmlFor="consent">Consent *</Label>
             <div className="mt-2 flex items-center gap-3">

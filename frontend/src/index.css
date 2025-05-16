@@ -38,6 +38,21 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --purpleDark: #cbc9fd;
+  --purpleLight: rgba(191, 189, 255, 0.54);
+  --black: #0e181d;
+  --purple: #7d7ada;
+  --white: #ffffff;
+  --vDarkPurple: #5344c2;
+  --footer: #dddcff;
+  --btnLight: #bfbdff8a;
+  --cardStroke: #dbdfe4;
+  --inputFill: #f8f7ff;
+  --placeholder: #0e181d99;
+  --jWhite: #fcfcff;
+  --footerFill: #4f4c98;
+  --body: #f5f5f5;
+  --someWhere: #fcfcff;
   scroll-behavior: smooth;
 }
 

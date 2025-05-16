@@ -15,63 +15,56 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 $data = json_decode(file_get_contents("php://input"));
 
 
-$user_type = $_POST['user_type'];
-$email = $_POST['email'];
-$password = $_POST['password'];
+$user_type = $_POST['user_type'] ?? null;
+$email = $_POST['email'] ?? null;
+$password = $_POST['password'] ?? null;
 $fName = $_POST['fName'] ?? null;
 $lName = $_POST['lName'] ?? null;
 $gender = $_POST['gender'] ?? null;
-$enDate = $_POST['enDate'] ?? null;
 $grDate = $_POST['grDate'] ?? null;
 $dept = isset($_POST['dept']) ? (int)$_POST['dept'] : null;
 $companyName = $_POST["compName"] ?? null;
 $location = $_POST["location"] ?? null;
 $desc = $_POST["description"] ?? null;
-$webLink = $_POST["webLink"] ?? null;
-$instLink = $_POST["instagramLink"] ?? null;
-$facebook = $_POST["facebookLink"] ?? null;
 
 
 // Validate the form data
 if (!$user_type) {
-    http_response_code(Response::BAD_REQUEST);
-    echo json_encode(['status' => false, "message" => "user_type has not been specified"]);
-    exit;
+    bad_request("user_type has not been specified");
 }
 
 
-$form = $user_type === 'student' ?
-    StudentRegisterForm::validate(
+if ($user_type === 'student') {
+    $form = StudentRegisterForm::validate(
         [
-            'email' => $email,
-            "password" => $password,
             "fName" => $fName,
             "lName" => $lName,
             "gender" => $gender,
-            "enDate" => $enDate,
+            'email' => $email,
+            "password" => $password,
             "grDate" => $grDate,
             "dept" => $dept
         ]
-    )
-    :
-    CompanyRegisterForm::validate(
+    );
+} elseif ($user_type === 'company') {
+    $form = CompanyRegisterForm::validate(
         [
+            "compName" => $companyName,
             'email' => $email,
             "password" => $password,
-            "compName" => $companyName,
             "desc" => $desc,
             "location" => $location,
-            "webLink" => $webLink ?? null,
-            "facebookLink" => $facebookLink ?? null,
-            "instagramLink" => $instagramLink ?? null
+            'compImg' => $_FILES['compImg'] ?? null,
         ]
     );
+} else {
+    bad_request("user_type has not been specified correctly");
+}
+
 
 if ($form) {
     /** @var Database $db */
     $db = App::resolve(Database::class);
-
-
 
     try {
         // Handle file upload
@@ -83,8 +76,8 @@ if ($form) {
             exit;
         }
 
-        $fileName = null;
-        $cpFileName = null;
+        $fileName = null; // for students
+        $cpFileName = null; // for companies
 
         if (isset($_FILES['profilePic'])) {
             $uploadDir = base_path("") . '/uploads/';
@@ -116,38 +109,72 @@ if ($form) {
 
         $verifyToken = bin2hex(random_bytes(32));
 
-
-
-
         // Send email
         // Save user data and file path to the database
         $isEmailSent = sendVerificationEmail($email, $verifyToken);
 
         if ($isEmailSent) {
             $db->query(
-                "INSERT INTO users (user_type, email, password, firstName, lastName, gender, enrolledTime, gradTime, dept_id, profile, companyName, location, compImg, description, webLink, facebookLink, instagramLink, verify_token) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                $user = [
-                    $user_type,
-                    $email,
-                    password_hash($password, PASSWORD_BCRYPT),
-                    $fName,
-                    $lName,
-                    $gender,
-                    $enDate,
-                    $grDate,
-                    $dept,
-                    $fileName,
-                    $companyName,
-                    $location,
-                    $cpFileName,
-                    $desc,
-                    $webLink ?? null,
-                    $facebookLink ?? null,
-                    $instagramLink ?? null,
-                    $verifyToken // Save the file name or path
+                "INSERT INTO users (email, password, user_type, verify_token) VALUES (:email, :password, :user_type, :verify_token)",
+                [
+                    'email' => $email,
+                    'password' => password_hash($password, PASSWORD_BCRYPT),
+                    'user_type' => $user_type,
+                    'verify_token' => $verifyToken,
                 ]
             );
-            echo json_encode(["status" => true, "message" => "User registered successfully.", "user" => $user]);
+
+            $user = $db->query(
+                'select * from users where email = :email',
+                [
+                    'email' => $email
+                ]
+            )->findOrFail();
+
+            // if student add to students table
+            if ($user_type === 'student') {
+                $db->query(
+                    'INSERT INTO students (user_id, first_name, last_name, gender, graduation_date, department, profile_picture) values (?, ?, ?, ?, ?, ?, ?)',
+                    [
+                        $user['id'],
+                        $fName,
+                        $lName,
+                        $gender,
+                        $grDate,
+                        $dept,
+                        $fileName
+                    ]
+                );
+
+                // $user = $db->query(
+                //     'SELECT u.*, s.* FROM users u JOIN students s ON u.id = s.user_id WHERE u.email = :email',
+                //     [
+                //         'email' => $email
+                //     ]
+                // )->findOrFail();
+            } else {
+                $db->query(
+                    'INSERT INTO companies (user_id , company_name, description, company_image, location) values (?, ?, ?, ?, ?)',
+                    [
+                        $user['id'],
+                        $companyName,
+                        $desc,
+                        $cpFileName,
+                        $location
+                    ]
+                );
+
+
+                // $user = $db->query(
+                //     '',
+                //     [
+                //         'email' => $email
+                //     ]
+                // )->findOrFail();
+            }
+
+
+            echo json_encode(["status" => true, "message" => "User registered successfully."]);
         } else {
             echo json_encode(["status" => false, "message" => "Sending Email Failed Try Again"]);
         }

@@ -1,17 +1,17 @@
+import { FormData as FC } from "@/components/Forms/CompanyForm";
 import { FormData as FS } from "@/components/Forms/StudentForm";
+import StudSchema from "@/models/registerSchema";
 import User from "@/models/User";
 import { axiosInstance, axiosPrivate } from "@/services/Apiclient";
 import { AxiosError, InternalAxiosRequestConfig } from "axios";
-import { FormData as FC } from "@/components/Forms/CompanyForm";
 import { Check, CheckCircle2 } from "lucide-react";
 import {
   createContext,
   ReactNode,
   useContext,
-  useEffect,
   useLayoutEffect,
   useRef,
-  useState,
+  useState
 } from "react";
 import { toast } from "sonner";
 
@@ -19,7 +19,8 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 interface AuthContextType {
   logout: () => void;
-  fetchState: "notReady" | "ready" | "registering" | "logging";
+  applyToJob: (id:string) => Promise<void>;
+  fetchState: "notReady" | "ready" | "registering" | "logging" | "applying";
   login: (email: string, password: string) => void;
   registerStudent: (data: FS) => void;
   registerCompany: (data: FC) => void;
@@ -50,7 +51,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [mounted, setMounted] = useState(false);
   const ref = useRef<boolean | null>(null);
   const [fetchState, setFetchState] = useState<
-    "notReady" | "logging" | "ready" | "registering"
+    "notReady" | "logging" | "ready" | "registering" | "applying"
   >("notReady");
 
   const [token, setToken] = useState<string | null>();
@@ -68,9 +69,6 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       formData.append("location", data.location);
       formData.append("description", data.description);
       formData.append("email", data.email);
-      formData.append("webLink", data.webLink ?? "");
-      formData.append("instagramLink", data.instagramLink ?? "");
-      formData.append("facebookLink", data.facebookLink ?? "");
 
       // Append the file (profile picture)
       const fileInput = document.querySelector<HTMLInputElement>("#cp");
@@ -79,13 +77,15 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         formData.append("compImg", fileInput.files[0]);
       }
 
+      console.log(fileInput?.files);
+
       // Send the POST request using axios
       const response = await axiosInstance.post(`/register`, formData);
 
       // Handle the response
       console.log("Response from backend:", response.data);
 
-      if (response.data) {
+      if (response.data.status) {
         toast("Registration successful!", {
           description: (
             <div className="text-xs font-bold text-green-500">
@@ -101,14 +101,35 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         });
       }
     } catch (err: any) {
-      console.error("Error:", err);
-      toast(`${err.response.data.message}`, {
-        style: {
-          background: "#e83232",
-          borderColor: "ff5136",
-          color: "white",
-        },
-      });
+      console.error("Error:");
+      if (err.response.data.errors) {
+        const errorMessages = Object.entries(err.response.data.errors).map(
+          ([field, messages]: [string, unknown]) => {
+            // Try to get the label from the Zod schema if available
+            const schemaField = (StudSchema.shape as any)[field];
+            const label = schemaField?._def?.description || field;
+            if (Array.isArray(messages)) {
+              return `${label}: ${messages.join(", ")}`;
+            }
+            return `${String(messages)}`;
+          },
+        );
+        toast(errorMessages.join("\n"), {
+          style: {
+            background: "#e83232",
+            borderColor: "ff5136",
+            color: "white",
+          },
+        });
+      } else {
+        toast(`${err.response.data.message}`, {
+          style: {
+            background: "#e83232",
+            borderColor: "ff5136",
+            color: "white",
+          },
+        });
+      }
     } finally {
       setFetchState("ready");
     }
@@ -159,6 +180,84 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         console.error(err);
       });
   };
+  const applyToJob = async (id: string) => {
+    setFetchState("applying");
+    try {
+      const formData = new FormData();
+
+      formData.append("user_id", user?.id.toString() ?? "");
+      formData.append("job_id", id);
+      // Append the file (profile picture)
+      const cv = document.querySelector<HTMLInputElement>("#cv");
+
+      const recommendation_letter = document.querySelector<HTMLInputElement>(
+        "#recommendation_letter",
+      );
+
+      if (cv?.files?.[0]) {
+        formData.append("cv", cv.files[0]);
+      }
+
+      if (recommendation_letter?.files?.[0]) {
+        formData.append(
+          "recommendation_letter",
+          recommendation_letter.files[0],
+        );
+      }
+
+      // Send the POST request using axios
+      const response = await axiosPrivate.post(`/app-jobs`, formData);
+
+      // Handle the response
+      console.log("Response from backend:", response.data);
+
+      if (response.data.status) {
+        toast("Application successful!", {
+          icon: <Check />,
+          description: (
+            <div className="text-xs font-bold text-green-500">
+              Check your status in applications page
+            </div>
+          ),
+          style: { background: "#f1f2fa" },
+        });
+      } else {
+        toast(`${response.data.message ?? ""}`);
+      }
+    } catch (err: any) {
+      console.error("Error:", err);
+      if (err.response.data.errors) {
+        const errorMessages = Object.entries(err.response.data.errors).map(
+          ([field, messages]: [string, unknown]) => {
+            // Try to get the label from the Zod schema if available
+            const schemaField = (StudSchema.shape as any)[field];
+            const label = schemaField?._def?.description || field;
+            if (Array.isArray(messages)) {
+              return `${label}: ${messages.join(", ")}`;
+            }
+            return `${label}: ${String(messages)}`;
+          },
+        );
+        toast(errorMessages.join("\n"), {
+          style: {
+            background: "#e83232",
+            borderColor: "ff5136",
+            color: "white",
+          },
+        });
+      } else {
+        toast(`${err.response.data.message}`, {
+          style: {
+            background: "#e83232",
+            borderColor: "ff5136",
+            color: "white",
+          },
+        });
+      }
+    } finally {
+      setFetchState("ready");
+    }
+  };
 
   const registerStudent = async (data: FS) => {
     setFetchState("registering");
@@ -166,12 +265,11 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       const formData = new FormData();
 
       // Append form fields
-      formData.append("user_type", "student"); // Assuming user_type is always "student"
+      formData.append("user_type", "student");
       formData.append("fName", data.fName);
       formData.append("dept", data.dept.toString());
       formData.append("lName", data.lName);
       formData.append("gender", data.gender);
-      formData.append("enDate", data.enDate);
       formData.append("grDate", data.grDate);
       formData.append("email", data.email);
       formData.append("password", data.password);
@@ -200,29 +298,49 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
           style: { background: "#f1f2fa" },
         });
       } else {
-        toast(`Error: ${response.data.message ?? ""}`, {
-          description: `${JSON.stringify(data)}`,
-        });
+        toast(`${response.data.message ?? ""}`);
       }
     } catch (err: any) {
       console.error("Error:", err);
-      toast(`${err.response.data.message}`, {
-        style: {
-          background: "#e83232",
-          borderColor: "ff5136",
-          color: "white",
-        },
-      });
+      if (err.response.data.errors) {
+        const errorMessages = Object.entries(err.response.data.errors).map(
+          ([field, messages]: [string, unknown]) => {
+            // Try to get the label from the Zod schema if available
+            const schemaField = (StudSchema.shape as any)[field];
+            const label = schemaField?._def?.description || field;
+            if (Array.isArray(messages)) {
+              return `${label}: ${messages.join(", ")}`;
+            }
+            return `${String(messages)}`;
+          },
+        );
+        toast(errorMessages.join("\n"), {
+          style: {
+            background: "#e83232",
+            borderColor: "ff5136",
+            color: "white",
+          },
+        });
+      } else {
+        toast(`${err.response.data.message}`, {
+          style: {
+            background: "#e83232",
+            borderColor: "ff5136",
+            color: "white",
+          },
+        });
+      }
     } finally {
       setFetchState("ready");
     }
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!mounted && !ref.current) {
       const fetchMe = async () => {
         console.log("fetching");
 
+        setFetchState("notReady");
         try {
           const response = await axiosPrivate.get<Response>("/refresh");
 
@@ -301,6 +419,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         login,
         user,
         fetchState,
+        applyToJob,
         registerStudent,
         registerCompany,
       }}

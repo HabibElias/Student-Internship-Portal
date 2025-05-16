@@ -21,6 +21,14 @@ function authorize($condition, $status = Response::FORBIDDEN)
     }
 }
 
+
+function bad_request($message = '')
+{
+    http_response_code(Response::BAD_REQUEST);
+    echo json_encode(['status' => false, 'message' => $message]);
+    exit;
+}
+
 function abort($code = Response::NOT_FOUND)
 {
 
@@ -81,11 +89,11 @@ function sendVerificationEmail($email, $token)
         $mail->Host       = $_ENV["SMTP_HOST"];
         $mail->Username   = $_ENV["SMTP_USER"];
         $mail->Password   = $_ENV["SMTP_PASS"];
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // TLS
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
         $mail->Port       = $_ENV["SMTP_PORT"];
 
         // Recipients
-        $mail->setFrom('habibelias234@gmail.com', 'Student Job Portal');
+        $mail->setFrom($_ENV["SMTP_USER"], 'Student Job Portal');
 
 
         // Recipients

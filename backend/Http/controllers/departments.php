@@ -12,7 +12,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 /** @var Database $db */
 $db = App::resolve("Core\Database");
 
-$departments = $db->query('SELECT * FROM department')->get();
+$departments = $db->query('SELECT * FROM departments')->get();
 
 if (!$departments) {
     echo json_encode(value: [

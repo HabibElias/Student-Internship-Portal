@@ -12,10 +12,10 @@ class CompanyRegisterForm
     public function __construct(public array $attributes)
     {
         if (!Validator::string($attributes['compName'], 3)) {
-            $this->errors['compName'] = 'compName must be at lease 3 characters';
+            $this->errors['compName'] = 'company name must be at least 3 characters';
         }
-        if (!Validator::string($attributes['desc'], 1, 250)) {
-            $this->errors['description'] = 'Description must be no more than 250';
+        if (!Validator::string($attributes['desc'], 1, 1000)) {
+            $this->errors['description'] = 'Description must be no more than 1000 characters';
         }
         if (!Validator::email($attributes['email'])) {
             $this->errors['email'] = 'please enter a valid email';
@@ -26,20 +26,8 @@ class CompanyRegisterForm
         if (!Validator::location($attributes['location'])) {
             $this->errors['location'] = 'please enter a valid location';
         }
-        if ($attributes['webLink'] !== null) {
-            if (!Validator::url($attributes['webLink'])) {
-                $this->errors['webLink'] = 'please enter a valid url';
-            }
-        }
-        if ($attributes['instagramLink'] !== null) {
-            if (!Validator::url($attributes['instagramLink'])) {
-                $this->errors['instagramLink'] = 'please enter a valid url';
-            }
-        }
-        if ($attributes['facebookLink'] !== null) {
-            if (!Validator::url($attributes['facebookLink'])) {
-                $this->errors['facebookLink'] = 'please enter a valid url';
-            }
+        if (!Validator::imageFile($attributes['compImg'])) {
+            $this->errors['compImg'] = 'please enter a valid image format (jpg, png, gif, webp)';
         }
     }
 

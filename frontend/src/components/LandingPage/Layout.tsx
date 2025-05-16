@@ -1,19 +1,12 @@
-import { Outlet, useNavigate } from "react-router-dom";
-import { Navbar } from "./Navbar.tsx";
-import Footer from "./Footer.tsx";
 import { useAuth } from "@/providers/AuthProvider.tsx";
-import { useLayoutEffect } from "react";
-import "./style.css";
+import { Outlet } from "react-router-dom";
 import Loading from "../Loading.tsx";
+import Footer from "./Footer.tsx";
+import { Navbar } from "./Navbar.tsx";
+import "./style.css";
 
 export const Layout = () => {
-  const { user, fetchState } = useAuth();
-  const navigate = useNavigate();
-
-  useLayoutEffect(() => {
-    if (user) navigate("/dashboard");
-    console.log(user);
-  }, [user]);
+  const { fetchState } = useAuth();
 
   if (fetchState == "notReady") return <Loading />;
 

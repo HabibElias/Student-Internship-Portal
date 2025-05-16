@@ -9,7 +9,7 @@ class Authenticator
         /** @var Database $db */
         $db = App::resolve(Database::class);
 
-        $user = $db->query('SELECT * FROM user WHERE email = :email', [
+        $user = $db->query('SELECT * FROM users WHERE email = :email', [
             'email' => $email
         ])->find();
 

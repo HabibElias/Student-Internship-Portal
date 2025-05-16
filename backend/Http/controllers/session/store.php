@@ -2,9 +2,7 @@
 
 use Core\App;
 use Core\Database;
-use Core\Response;
 use Firebase\JWT\JWT;
-use GuzzleHttp\Psr7\Message;
 
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: http://localhost:5173");
@@ -20,8 +18,8 @@ $secret_key = App::resolve('secret_key');
 
 $data = json_decode(file_get_contents("php://input"));
 
-$email = $data->email;
-$password = $data->password;
+$email = $data->email ?? null;
+$password = $data->password ?? null;
 
 
 /** @var Database $db */
@@ -29,7 +27,7 @@ $db = App::resolve(Database::class);
 
 $user = $db->query('SELECT * FROM users where email = :email', [":email" => $email])->find();
 
-if(!$user) {
+if (!$user) {
     echo json_encode(['status' => false, 'message' => 'No Account with this email']);
     exit;
 }
@@ -87,6 +85,35 @@ if ($user && password_verify($password, $user['password'])) {
             [$refreshToken, $expiresAt, $user['id']]
         );
 
+    if ($user['user_type'] === 'student') {
+        $student = $db->query(
+            'SELECT s.* FROM users u JOIN students s ON u.id = s.user_id WHERE u.email = :email',
+            [
+                'email' => $email
+            ]
+        )->findOrFail();
+
+        $user = [
+            'id' => $student['user_id'],
+            'email' => $user['email'],
+            'user_type' => 'student',
+            'data' => $student
+        ];
+    } else {
+        $company = $db->query(
+            'SELECT c.* FROM users u JOIN companies c ON u.id = c.user_id WHERE u.email = :email',
+            [
+                'email' => $email
+            ]
+        )->findOrFail();
+
+        $user = [
+            'id' => $company['user_id'],
+            'email' => $user['email'],
+            'user_type' => 'company',
+            'data' => $company
+        ];
+    }
 
     echo json_encode([
         "status" => true,

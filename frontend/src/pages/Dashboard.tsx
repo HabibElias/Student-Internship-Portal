@@ -7,7 +7,7 @@ const Dashboard = () => {
 
   if (!user) return <Loading />;
 
-  if (user.user_type == "student") {
+  if (user.user_type === "student") {
     return <StudentDashboard />;
   }
 

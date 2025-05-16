@@ -26,11 +26,8 @@ class StudentRegisterForm
         if(!Validator::gender($attributes['gender'])) {
             $this->errors['gender'] = 'Please enter a valid gender';
         }
-        if(!Validator::date($attributes['enDate'])) {
-            $this->errors['enDate'] = 'Please enter a valid date input y-m-d';
-        }
-        if(!Validator::date($attributes['grDate'])) {
-            $this->errors['grDate'] = 'Please enter a valid date input y-m-d';
+        if(!Validator::grDate($attributes['grDate'])) {
+            $this->errors['grDate'] = 'Please enter a valid graduation date';
         }
         if(!Validator::int($attributes['dept'])) {
             $this->errors['dept'] = 'Please enter a valid department value';

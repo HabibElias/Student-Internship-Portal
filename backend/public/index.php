@@ -39,6 +39,7 @@ try {
     http_response_code(422);
     echo json_encode(
         [
+            'status' => false,
             'errors' => Sessions::get('errors'),
             'old' => Sessions::get('old')
         ]

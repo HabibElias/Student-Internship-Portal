@@ -2,15 +2,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { CompSchema } from "@/models/registerSchema";
-import { axiosInstance } from "@/services/Apiclient";
+import { useAuth } from "@/providers/AuthProvider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@radix-ui/react-label";
-import { Check, Loader, NotebookPen } from "lucide-react";
+import { Loader, NotebookPen } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { z } from "zod";
 import { Textarea } from "../ui/textarea";
-import { useAuth } from "@/providers/AuthProvider";
+import ImageInput from "../ImageInput";
 
 export type FormData = z.infer<typeof CompSchema>;
 
@@ -24,8 +23,8 @@ const CompanyForm = () => {
   });
 
   const { registerCompany, fetchState } = useAuth();
-  
-  const onSubmit =  (data: FormData) => {
+
+  const onSubmit = (data: FormData) => {
     registerCompany(data);
   };
 
@@ -49,8 +48,8 @@ const CompanyForm = () => {
         <p className="-mt-8 font-[Dm_Sans] text-xs text-[#7D7ADA]">Company</p>
 
         {/* INPUTS */}
-        <div className="space-y-4 px-12 md:mt-10">
-          <div className="grid grid-cols-1 gap-x-4 gap-y-3 md:grid-cols-2">
+        <div className="space-y-4 px-12">
+          <div className="grid grid-cols-1 gap-x-4 gap-y-3">
             <div className="space-y-4">
               {/* FNAME LNAME */}
               <div className="">
@@ -114,17 +113,11 @@ const CompanyForm = () => {
                   </p>
                 )}
               </div>
+
               {/* PROFILE PICTURE */}
-              <div className="flex flex-col sm:items-start">
-                <Label htmlFor="pp">Company Image</Label>
-                <input
-                  id="cp"
-                  className="w-full cursor-pointer rounded bg-[url(@/assets/Forms/choose.svg)] bg-cover bg-center bg-no-repeat px-2 py-14 text-xs text-purple-600 shadow-xs ring-1 ring-[#e5e5e5]"
-                  type="file"
-                  accept="image/*"
-                  name="cp"
-                />
-              </div>
+              <ImageInput id="cp" labelName="Company Image *" required />
+
+              {/* COMPANY DESCRIPTION */}
               <div className="w-full">
                 <Label htmlFor="description">Company description *</Label>
                 <Textarea
@@ -139,60 +132,6 @@ const CompanyForm = () => {
                 {errors.description && (
                   <p className="py-2 text-xs text-red-400">
                     {errors.description.message}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            {/* SECOND COL */}
-
-            <div className="space-y-4 md:-mt-10">
-              <h2 className="font-semibold">Optional Links</h2>
-              <div className="">
-                <Label htmlFor="webLink">Company Web Link</Label>
-                <Input
-                  id="webLink"
-                  {...register("webLink")}
-                  type="url"
-                  className={cn("p-5", errors.webLink && "border-red-400")}
-                  placeholder="http://www.example.com"
-                />
-                {errors.webLink && (
-                  <p className="py-2 text-xs text-red-400">
-                    {errors.webLink.message}
-                  </p>
-                )}
-              </div>
-              <div className="">
-                <Label htmlFor="instagramLink">Company Instagram Link</Label>
-                <Input
-                  id="instagramLink"
-                  {...register("instagramLink")}
-                  type="text"
-                  className={cn(
-                    "p-5",
-                    errors.instagramLink && "border-red-400",
-                  )}
-                  placeholder="https://www.instagram.com"
-                />
-                {errors.instagramLink && (
-                  <p className="py-2 text-xs text-red-400">
-                    {errors.instagramLink.message}
-                  </p>
-                )}
-              </div>
-              <div className="">
-                <Label htmlFor="facebookLink">Company Facebook Link</Label>
-                <Input
-                  id="facebookLink"
-                  {...register("facebookLink")}
-                  type="text"
-                  className={cn("p-5", errors.facebookLink && "border-red-400")}
-                  placeholder="https://www.facebook.com"
-                />
-                {errors.facebookLink && (
-                  <p className="py-2 text-xs text-red-400">
-                    {errors.facebookLink.message}
                   </p>
                 )}
               </div>

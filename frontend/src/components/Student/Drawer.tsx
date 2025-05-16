@@ -26,8 +26,11 @@ import { cn } from "@/lib/utils.ts";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover.tsx";
 import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
 import { useAuth } from "@/providers/AuthProvider.tsx";
+import { isStudent } from "@/models/Student.ts";
+import { useState } from "react";
 
 const CustomDrawer = () => {
+  const [open, setOpen] = useState<boolean>(false);
   const { user, logout } = useAuth();
   const routes = ["dashboard", "findJobs", "savedJobs"];
   const routesIcon: Map<string, any> = new Map([
@@ -37,9 +40,10 @@ const CustomDrawer = () => {
   ]);
 
   return (
-    <Drawer direction="left">
+    <Drawer open={open} direction="left">
       <DrawerTrigger asChild>
         <Button
+          onClick={() => setOpen(true)}
           variant={"secondary"}
           size={"icon"}
           className="cursor-pointer rounded py-2 text-gray-600"
@@ -54,6 +58,7 @@ const CustomDrawer = () => {
             <Button
               variant={"default"}
               size={"icon"}
+              onClick={() => setOpen(false)}
               className="cursor-pointer hover:bg-white/30"
             >
               <X />
@@ -69,6 +74,7 @@ const CustomDrawer = () => {
             <NavLink
               key={index}
               to={route}
+              onClick={() => setOpen(() => false)}
               className={cn(
                 "group flex items-center gap-3 text-base font-[500] [a.active]:text-[#7D7ADA]",
               )}
@@ -85,18 +91,26 @@ const CustomDrawer = () => {
             <Popover>
               <PopoverTrigger>
                 <div className="flex items-center justify-between rounded-xl bg-[#111]/30 p-3">
-                  <div className="flex gap-3">
+                  <div className="flex items-center gap-3">
                     <Avatar className="cursor-pointer">
                       <AvatarImage
                         className="h-10 w-10 overflow-clip rounded-full"
-                        src={`${import.meta.env.VITE_API_URL}/image?img=${user.profile}`}
+                        src={
+                          isStudent(user.data)
+                            ? `${import.meta.env.VITE_API_URL}/image?img=${user.data.profile_picture}`
+                            : ""
+                        }
                       />
-                      <AvatarFallback className="rounded-full bg-gray-500 p-2 text-white">
-                        {`${user.firstname.slice(0, 1).toUpperCase()} ${user.lastname.slice(0, 1).toUpperCase()}`}
+                      <AvatarFallback className="inline-flex rounded-full bg-gray-500 p-2 text-xs text-white">
+                        {isStudent(user.data) &&
+                          `${user.data.first_name.slice(0, 1).toUpperCase()} ${user.data.last_name.slice(0, 1).toUpperCase()}`}
                       </AvatarFallback>
                     </Avatar>
                     <div className="text-start">
-                      <div>{`${user.firstname} ${user.lastname}`}</div>
+                      <div>
+                        {isStudent(user.data) &&
+                          `${user.data.first_name} ${user.data.last_name}`}
+                      </div>
                       <div className="text-xs text-gray-400">{user.email}</div>
                     </div>
                   </div>

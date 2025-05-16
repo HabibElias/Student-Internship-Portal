@@ -22,11 +22,10 @@ import { UseFormSetValue } from "react-hook-form";
 interface Props {
   value: number | undefined;
   setValue: Dispatch<React.SetStateAction<number | undefined>>;
-  setDept: UseFormSetValue<{
+  setDept?: UseFormSetValue<{
     fName: string;
     lName: string;
     gender: "male" | "female";
-    enDate: string;
     grDate: string;
     dept: number;
     email: string;
@@ -73,7 +72,9 @@ export function DepartmentSelect({ value, setDept, setValue }: Props) {
                         ? undefined
                         : Number(department.id),
                     );
-                    setDept("dept", Number(department.id));
+                    if (setDept) {
+                      setDept("dept", Number(department.id));
+                    }
                     setOpen(false);
                   }}
                 >

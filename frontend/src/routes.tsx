@@ -8,36 +8,70 @@ import Dashboard from "./pages/Dashboard.tsx";
 import StudentLayout from "./components/Student/StudentLayout.tsx";
 import PrivateRoutes from "./components/PrivateRoutes.tsx";
 import Unauthorized from "./components/Unauthorized.tsx";
+import FindJobsPage from "./pages/FindJobsPage.tsx";
+import ApplyPage from "./pages/ApplyPage.tsx";
+import NotFound from "./components/NotFound.tsx";
+import ErrorPage from "./components/ErrorPage.tsx";
+import JobPage from "./pages/JobPage.tsx";
+import ApplicationsPage from "./pages/ApplicationsPage.tsx";
+import SavedJobsPage from "./pages/SavedJobsPage.tsx";
 
 const routes = createBrowserRouter([
   {
-    path: "",
-    element: <LandLayOut />,
+    errorElement: <ErrorPage />,
     children: [
-      { path: "", element: <HomePage /> },
       {
-        path: "/unauthorized",
-        element: <Unauthorized />,
+        element: <LandLayOut />,
+        children: [
+          { path: "", element: <HomePage /> },
+          {
+            path: "/unauthorized",
+            element: <Unauthorized />,
+          },
+          {
+            path: "/not-found",
+            element: <NotFound />,
+          },
+        ],
       },
-    ],
-  },
-
-  {
-    element: <FormLayout />,
-    children: [
-      { path: "login", element: <LoginPage /> },
-      { path: "register", element: <RegisterPage /> },
-    ],
-  },
-  {
-    element: <PrivateRoutes />,
-    children: [
       {
-        element: <StudentLayout />,
+        element: <FormLayout />,
+        children: [
+          { path: "login", element: <LoginPage /> },
+          { path: "register", element: <RegisterPage /> },
+        ],
+      },
+      {
+        element: <PrivateRoutes />,
         children: [
           {
-            path: "/dashboard",
-            element: <Dashboard />,
+            element: <StudentLayout />,
+            children: [
+              {
+                path: "/dashboard",
+                element: <Dashboard />,
+              },
+              {
+                path: "/findJobs",
+                element: <FindJobsPage />,
+              },
+              {
+                path: "/apply/:id",
+                element: <ApplyPage />,
+              },
+              {
+                path: "/job/:id",
+                element: <JobPage />,
+              },
+              {
+                path: "/applications",
+                element: <ApplicationsPage />,
+              },
+              {
+                path: "/savedJobs",
+                element: <SavedJobsPage />,
+              },
+            ],
           },
         ],
       },

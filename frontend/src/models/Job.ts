@@ -1,8 +1,8 @@
 export interface Job {
   id: number;
   company_id: number;
-  companyname: string;
-  compimg: string;
+  company_name: string;
+  company_image: string;
   title: string;
   remote: boolean;
   full_time: boolean;
@@ -11,4 +11,5 @@ export interface Job {
   posted_time: string;
   skills: string;
   deadline: string;
+  location: string;
 }

@@ -14,11 +14,13 @@ if (!function_exists('imagecreatefromjpeg')) {
 }
 
 $imgName = $_GET['img'] ?? false;
+
 if (!$imgName) {
     http_response_code(400);
     echo json_encode(["message" => "imgUrl missing"]);
     exit;
 }
+
 $imagePath = base_path("uploads/{$imgName}");
 if (file_exists($imagePath)) {
     $image = imagecreatefromjpeg($imagePath) ?? false;

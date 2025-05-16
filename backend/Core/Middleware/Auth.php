@@ -28,21 +28,23 @@ class Auth
         if (!isset($headers['Authorization'])) {
 
             http_response_code(Response::UNAUTHORIZED);
-            echo json_encode(["message" => "Unauthorized"]);
+            echo json_encode(["status" => false, "message" => "Unauthorized"]);
 
             exit();
         }
 
         $token = str_replace("Bearer ", "", $headers['Authorization']);
-
+        
         try {
 
-            JWT::decode($token, new Key($secret_key, 'HS256'));
+            $verifiedToken = JWT::decode($token, new Key($secret_key, 'HS256'));
 
-            //
+            $_SERVER['verifiedToken'] = $verifiedToken;
+
+            // continue
         } catch (Exception $e) {
             http_response_code(Response::UNAUTHORIZED);
-            echo json_encode(["message" => "Token invalid or expired"]);
+            echo json_encode(["status" => false, "message" => "Token invalid or expired"]);
             //
             exit();
         }

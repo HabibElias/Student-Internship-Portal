@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const RegisterSchema = z.object({
+const StudSchema = z.object({
   fName: z
     .string()
     .min(3, { message: "First Name must be at least 3 characters" })
@@ -10,9 +10,6 @@ const RegisterSchema = z.object({
     .min(3, { message: "Last Name must be at least 3 characters" })
     .max(50, { message: "Last Name must not exceed 50 characters" }),
   gender: z.enum(["male", "female"], { message: "Please select a gender" }),
-  enDate: z.string().refine((val) => !isNaN(Date.parse(val)), {
-    message: "Please Select a valid date",
-  }),
   grDate: z.string().refine((val) => !isNaN(Date.parse(val)), {
     message: "Please Select a valid date",
   }),
@@ -57,7 +54,6 @@ export const CompSchema = z.object({
     .string()
     .min(1, { message: "Description is no more than 400 characters" })
     .max(400, { message: "Description is no more than 400 characters" }),
-  webLink: z.string().url({ message: "Please enter a valid URL" }).optional(),
   email: z
     .string()
     .email({ message: "Please enter a valid email address" })
@@ -76,17 +72,9 @@ export const CompSchema = z.object({
     .regex(/[@$!%*?&#]/, {
       message: "Password must contain at least one special character",
     }),
-  facebookLink: z
-    .string()
-    .url({ message: "Please enter a valid URL" })
-    .optional(),
-  instagramLink: z
-    .string()
-    .url({ message: "Please enter a valid URL" })
-    .optional(),
   consent: z.boolean().refine((val) => val === true, {
     message: "You must accept the terms and conditions",
   }),
 });
 
-export default RegisterSchema;
+export default StudSchema;

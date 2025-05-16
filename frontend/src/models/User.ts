@@ -1,73 +1,13 @@
+import Company from "./Company";
+import Student from "./Student";
+
 export default interface User {
   id: number;
-  user_type: string;
+  user_type: "student" | "company";
   email: string;
-  password: string;
-  firstname: string;
-  lastname: string;
-  gender: "male" | "female";
-  dept_id: number;
-  profile: string;
-  companyname: string;
-  location: string;
-  compimg: string;
-  description: string;
-  weblink: string;
-  facebooklink: string;
-  instagramlink: string;
+  data: Student | Company;
 }
 
-// compImg
-// :
-// null
-// companyName
-// :
-// null
-// dept_id
-// :
-// 31
-// description
-// :
-// null
-// email
-// :
-// "habib234@gmail.com"
-// enrolledTime
-// :
-// "2022-09-22"
-// facebookLink
-// :
-// null
-// firstName
-// :
-// "Habib"
-// gender
-// :
-// "male"
-// gradTime
-// :
-// "2027-09-13"
-// id
-// :
-// 4
-// instagramLink
-// :
-// null
-// lastName
-// :
-// "Elias"
-// location
-// :
-// null
-// password
-// :
-// "$2y$10$B4ND6wzJIwRBhttOmer2FeodzwqHBkjvzVTxuu369VJMpkmV0UT.q"
-// profile
-// :
-// "1745134675_A24B0256.JPG"
-// user_type
-// :
-// "student"
-// webLink
-// :
-// n
+
+
+
