@@ -1,8 +1,30 @@
 import useApplications from "@/hooks/useApplications";
 import { Link } from "react-router-dom";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const ApplicationStat = () => {
-  const { applications } = useApplications();
+  const { applications, isLoading } = useApplications();
+
+  if (isLoading) {
+    return (
+      <div className="w-full items-center gap-10 sm:inline-flex">
+        <div className="w-full md:max-w-100">
+          <span className="mb-2 block text-lg font-medium text-gray-600">
+            Your Applications
+          </span>
+          <Skeleton className="h-36 w-full rounded-2xl mb-2" />
+          <Skeleton className="h-5 w-24 ml-auto" />
+        </div>
+        <div className="w-full md:max-w-100">
+          <span className="mb-2 block text-lg font-medium text-gray-600">
+            Accepted Applications
+          </span>
+          <Skeleton className="h-36 w-full rounded-2xl mb-2" />
+          <Skeleton className="h-5 w-24 ml-auto" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full items-center gap-10 sm:inline-flex">
@@ -61,7 +83,6 @@ const ApplicationStat = () => {
             </span>
             <span className="mt-1 text-sm text-gray-500">Accepted Jobs</span>
           </div>
-          {/* Checkmark icon for accepted applications */}
           <svg
             className="h-16 w-16 text-[#22c55e]"
             fill="none"

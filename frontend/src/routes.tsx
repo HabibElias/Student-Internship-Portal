@@ -8,13 +8,13 @@ import Dashboard from "./pages/Dashboard.tsx";
 import StudentLayout from "./components/Student/StudentLayout.tsx";
 import PrivateRoutes from "./components/PrivateRoutes.tsx";
 import Unauthorized from "./components/Unauthorized.tsx";
-import FindJobsPage from "./pages/FindJobsPage.tsx";
-import ApplyPage from "./pages/ApplyPage.tsx";
+import FindJobsPage from "./pages/Student/FindJobsPage.tsx";
+import ApplyPage from "./pages/Student/ApplyPage.tsx";
 import NotFound from "./components/NotFound.tsx";
 import ErrorPage from "./components/ErrorPage.tsx";
-import JobPage from "./pages/JobPage.tsx";
-import ApplicationsPage from "./pages/ApplicationsPage.tsx";
-import SavedJobsPage from "./pages/SavedJobsPage.tsx";
+import JobPage from "./pages/Student/JobPage.tsx";
+import ApplicationsPage from "./pages/Student/ApplicationsPage.tsx";
+import SavedJobsPage from "./pages/Student/SavedJobsPage.tsx";
 
 const routes = createBrowserRouter([
   {

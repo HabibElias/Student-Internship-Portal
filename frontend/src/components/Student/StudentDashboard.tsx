@@ -8,7 +8,7 @@ import { useEffect } from "react";
 
 const StudentDashboard = () => {
   const { user } = useAuth();
-  const { recommendations } = useRecommendations();
+  const { recommendations, isLoading } = useRecommendations();
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -29,28 +29,34 @@ const StudentDashboard = () => {
         <span className="mb-2 block text-lg font-medium text-gray-600">
           Recommended Jobs
         </span>
-        <div className="hidden grid-cols-2 gap-6 md:grid">
-          {recommendations.length > 0 ? (
-            recommendations.map((job, index) => (
-              <JobCard key={index} job={job} />
-            ))
-          ) : (
-            <div className="col-span-full py-8 text-center text-gray-500">
-              No recommendations available.
+        {isLoading ? (
+          <div className="py-8 text-gray-500">Loading recommendations...</div>
+        ) : (
+          <>
+            <div className="hidden grid-cols-2 gap-6 md:grid">
+              {recommendations.length > 0 ? (
+                recommendations.map((job, index) => (
+                  <JobCard key={index} job={job} />
+                ))
+              ) : (
+                <div className="col-span-full py-8 text-start text-gray-500">
+                  No recommendations available.
+                </div>
+              )}
             </div>
-          )}
-        </div>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:hidden">
-          {recommendations.length > 0 ? (
-            recommendations.map((job, index) => (
-              <JobCardMobile key={index} job={job} />
-            ))
-          ) : (
-            <div className="col-span-full py-8 text-center text-gray-500">
-              No recommendations available.
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:hidden">
+              {recommendations.length > 0 ? (
+                recommendations.map((job, index) => (
+                  <JobCardMobile key={index} job={job} />
+                ))
+              ) : (
+                <div className="col-span-full w-fit py-8 text-start text-gray-500">
+                  No recommendations available.
+                </div>
+              )}
             </div>
-          )}
-        </div>
+          </>
+        )}
         <div className="mt-6 flex justify-start">
           <button className="cursor-pointer font-medium text-[#7d7ada] transition-colors hover:underline">
             See more

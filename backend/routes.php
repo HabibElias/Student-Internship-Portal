@@ -13,7 +13,7 @@ $router->post('/verify', '/verify.php')->only('auth');
 
 $router->get('/refresh', '/refresh.php');
 
-$router->post('/register', '/registration/store.php');
+$router->post('/register', '/account/store.php');
 
 
 // department

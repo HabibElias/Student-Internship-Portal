@@ -32,18 +32,17 @@ if ($user['user_type'] !== 'student') {
     exit;
 }
 
+// pg sql
+// $student = $db->query('SELECT s.*, d.name as department_name from students s join departments d on s.department = CAST(d.id AS VARCHAR)')->findOrFail();
+
+//mysql
 $student = $db->query('SELECT s.*, d.name as department_name from students s join departments d on s.department = d.id')->findOrFail();
-
-
-$recommendation_jobs = $db->query('SELECT * FROM job WHERE title LIKE :department', [
-    'department' => '%' . substr($student['department_name'], 0, 3) . '%'
-])->get();
 
 $jobs = $db
     ->query(
         'SELECT j.id, company_id, company_name, company_image, title, remote, full_time, job_level, j.description, c.location, posted_time, skills, deadline FROM job j join companies c on c.user_id = j.company_id where title LIKE :department',
         [
-            'department' => '%' . substr($student['department_name'], 0, 3) . '%'
+            'department' => '%' . strtolower(substr($student['department_name'], 0, 3)) . '%'
         ]
     )
     ->get();

@@ -23,10 +23,12 @@ $where = [];
 $params = [];
 
 // Search by title (partial match)
-if (!empty($_GET['title'])) {
-    $where[] = 'title LIKE :title';
-    $params[':title'] = '%' . $_GET['title'] . '%';
+if (isset($_GET['title'])) {
+    $searchTerm = trim($_GET['title']);
+    $where[] = '(LOWER(title) LIKE :title OR LOWER(c.company_name) LIKE :title)';
+    $params[':title'] = '%' . strtolower($searchTerm) . '%';
 }
+
 
 // Filter by full_time (expects 0 or 1)
 if (isset($_GET['full_time'])) {
@@ -65,7 +67,7 @@ if (!empty($where)) {
 }
 
 // Update total count query for filtered results
-$countQuery = "SELECT COUNT(*) AS total FROM job $whereClause";
+$countQuery = "SELECT COUNT(*) AS total FROM job j JOIN companies c ON c.user_id = j.company_id $whereClause";
 $countStmt = $db->prepare($countQuery);
 
 foreach ($params as $key => $value) {
@@ -76,10 +78,8 @@ $countStmt->execute();
 $all_jobs = $countStmt->get();
 
 // Prepare the main jobs query with filters
-$query = "SELECT j.id, company_id, company_name, company_image, title, remote, full_time, job_level, j.description, posted_time, c.location, skills, deadline
-    FROM job j
-    JOIN companies c ON c.user_id = j.company_id
-    $whereClause
+$query = "SELECT j.id, company_id, company_name, company_image, title, remote, full_time, job_level, j.description, c.location, posted_time, skills, deadline FROM job j JOIN companies c ON c.user_id = j.company_id
+    {$whereClause}
     LIMIT :limit OFFSET :offset";
 
 $stmt = $db->prepare($query);
@@ -94,6 +94,7 @@ $stmt->bindParam(':offset', (int)$offset, PDO::PARAM_INT);
 $stmt->execute();
 $jobs = $stmt->get();
 
+// dd($jobs);
 
 
 $total_pages = (int) ceil(($all_jobs[0]['total'] ?? 0) / $limit);
