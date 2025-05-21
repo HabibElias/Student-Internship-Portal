@@ -15,6 +15,12 @@ import ErrorPage from "./components/ErrorPage.tsx";
 import JobPage from "./pages/Student/JobPage.tsx";
 import ApplicationsPage from "./pages/Student/ApplicationsPage.tsx";
 import SavedJobsPage from "./pages/Student/SavedJobsPage.tsx";
+import CompanyLayout from "./components/Company/CompanyLayout.tsx";
+import CreateJobsPage from "./pages/Company/CreateJobsPage.tsx";
+import StudentDashboard from "./components/Student/StudentDashboard.tsx";
+import CompanyDashboard from "./pages/Company/CompanyDashboard.tsx";
+import ApplicantsPage from "./pages/Company/ApplicantsPage.tsx";
+import ApplicantDetails from "./pages/Company/ApplicantDetails.tsx";
 
 const routes = createBrowserRouter([
   {
@@ -42,14 +48,18 @@ const routes = createBrowserRouter([
         ],
       },
       {
+        path: "/dashboard",
+        element: <Dashboard />,
+      },
+      {
         element: <PrivateRoutes />,
         children: [
           {
             element: <StudentLayout />,
             children: [
               {
-                path: "/dashboard",
-                element: <Dashboard />,
+                path: "/dashboard/student",
+                element: <StudentDashboard />,
               },
               {
                 path: "/findJobs",
@@ -70,6 +80,27 @@ const routes = createBrowserRouter([
               {
                 path: "/savedJobs",
                 element: <SavedJobsPage />,
+              },
+            ],
+          },
+          {
+            element: <CompanyLayout />,
+            children: [
+              {
+                path: "job",
+                element: <CreateJobsPage />,
+              },
+              {
+                path: "/dashboard/company",
+                element: <CompanyDashboard />,
+              },
+              {
+                path: "applicants",
+                element: <ApplicantsPage />,
+              },
+              {
+                path: "applicants/:id",
+                element: <ApplicantDetails />,
               },
             ],
           },

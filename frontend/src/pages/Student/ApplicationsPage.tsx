@@ -11,9 +11,51 @@ import {
 } from "@/components/ui/table";
 import useApplications from "@/hooks/useApplications";
 import { axiosPrivate } from "@/services/Apiclient";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+
+type ApplicationRowProps = {
+  app: any;
+  onDelete: (id: number) => void;
+  onViewJob: (id: number) => void;
+};
+
+function ApplicationRow({ app, onDelete, onViewJob }: ApplicationRowProps) {
+  return (
+    <TableRow key={app.id}>
+      <TableCell className="font-medium">{app.job.title}</TableCell>
+      <TableCell>{app.company_name}</TableCell>
+      <TableCell>
+        <a
+          target="_blank"
+          className="text-(--vDarkPurple) hover:underline"
+          href={`${import.meta.env.VITE_API_URL}/file?file=${app.cv}`}
+        >
+          View Cv
+        </a>
+      </TableCell>
+      <TableCell>
+        {app.recommendation_letter ? (
+          <a
+            target="_blank"
+            className="text-(--vDarkPurple) hover:underline"
+            href={`${import.meta.env.VITE_API_URL}/file?file=${app.recommendation_letter}`}
+          >
+            View letter
+          </a>
+        ) : (
+          "No letter"
+        )}
+      </TableCell>
+      <TableCell>{app.status}</TableCell>
+      <TableCell className="flex items-center gap-2 *:cursor-pointer">
+        <Button onClick={() => onViewJob(app.job.id)}>View Job</Button>
+        <Button onClick={() => onDelete(app.id)}>Delete</Button>
+      </TableCell>
+    </TableRow>
+  );
+}
 
 export default function ApplicationPage() {
   const { applications, isLoading, setApplications } = useApplications();
@@ -21,6 +63,10 @@ export default function ApplicationPage() {
   const [sortColumn, setSortColumn] = useState<string>("Job Title");
   const [sortOrder, setSortOrder] = useState<string>("asc");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, []);
 
   // Filtered Applications
   const filteredApplications = applications.filter((app) => {
@@ -123,50 +169,12 @@ export default function ApplicationPage() {
         </TableHeader>
         <TableBody>
           {sortedApplications.map((app) => (
-            <TableRow key={app.id}>
-              <TableCell className="font-medium">{app.job.title}</TableCell>
-              <TableCell>{app.company_name}</TableCell>
-              <TableCell>
-                <a
-                  target="_blank"
-                  className="text-(--vDarkPurple) hover:underline"
-                  href={`${import.meta.env.VITE_API_URL}/file?file=${app.cv}`}
-                >
-                  View Cv
-                </a>
-              </TableCell>
-              <TableCell>
-                {app.recommendation_letter ? (
-                  <a
-                    target="_blank"
-                    className="text-(--vDarkPurple) hover:underline"
-                    href={`${import.meta.env.VITE_API_URL}/file?file=${app.recommendation_letter}`}
-                  >
-                    View letter
-                  </a>
-                ) : (
-                  "No letter"
-                )}
-              </TableCell>
-              <TableCell>{app.status}</TableCell>
-              <TableCell className="flex items-center gap-2 *:cursor-pointer">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => navigate(`/job/${app.job.id}`)}
-                >
-                  View Job
-                </Button>
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  className="ring-2 hover:bg-white/30 hover:text-red-600"
-                  onClick={() => handleDelete(app.id)}
-                >
-                  Delete
-                </Button>
-              </TableCell>
-            </TableRow>
+            <ApplicationRow
+              key={app.id}
+              app={app}
+              onDelete={handleDelete}
+              onViewJob={(id) => navigate(`/job/${id}`)}
+            />
           ))}
         </TableBody>
         <TableFooter>

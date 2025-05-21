@@ -33,6 +33,16 @@ $router->get('/jobs', '/jobs/index.php');
 
 $router->get('/job', '/jobs/show.php');
 
+// company access on job
+
+$router->post('/job', '/jobs/store.php')->only('auth'); // creating job
+
+$router->delete('/job', '/jobs/destroy.php')->only('auth'); // deleting job
+
+$router->patch('/job', '/jobs/patch.php')->only('auth'); // patching job
+
+$router->get('/c-jobs', '/jobs/company/index.php')->only('auth'); // getting job of a company
+
 // saved jobs
 
 $router->get('/saved-jobs', '/jobs/saved/index.php')->only('auth');
@@ -48,6 +58,12 @@ $router->get('/app-jobs', '/jobs/applications/index.php')->only('auth');
 $router->post('/app-jobs', '/jobs/applications/store.php')->only('auth');
 
 $router->delete('/app-jobs', '/jobs/applications/destroy.php')->only('auth');
+
+// company application
+
+$router->get('/company/applicants', '/jobs/company/applications/index.php')->only('auth');
+
+$router->patch('/company/applicants', '/jobs/company/applications/patch.php')->only('auth');
 
 // recommendations
 

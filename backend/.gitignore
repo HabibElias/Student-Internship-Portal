@@ -2,5 +2,3 @@
 config.php
 .env
 update
-composer.lock
-vendor

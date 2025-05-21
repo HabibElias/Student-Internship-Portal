@@ -14,7 +14,7 @@ $db = App::resolve('Core\Database');
 
 $page = isset($_GET['page']) ? (((int)$_GET['page'] <= 0) ? 1 : $_GET['page']) : 1;
 
-$limit = $_GET['limit'] ?? 10;
+$limit = $_GET['limit'] ?? 9;
 
 $offset = ($page - 1) * $limit;
 

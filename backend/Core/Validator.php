@@ -10,7 +10,8 @@ class Validator
         return $value >= $min && $value <= $max;
     }
 
-    public static function number($value) {
+    public static function number($value)
+    {
         return is_numeric($value);
     }
 
@@ -69,6 +70,18 @@ class Validator
     public static function boolean($value)
     {
         return is_bool($value);
+    }
+
+    public static function job_level($level)
+    {
+        $levels = [
+            'internship',
+            'junior',
+            'mid-senior',
+            'senior'
+        ];
+
+        return in_array($level, $levels, true);
     }
 
     public static function imageFile($file)

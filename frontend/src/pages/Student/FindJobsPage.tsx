@@ -1,5 +1,4 @@
 import JobCard from "@/components/Student/JobCard";
-import JobCardMobile from "@/components/Student/JobCardMobile";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -156,7 +155,7 @@ const FindJobsPage = () => {
           Search Results
         </h4>
 
-        <div className="mx-auto hidden max-w-6xl place-items-center gap-8 sm:grid sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid w-[inherit] place-content-center gap-6 *:w-full md:grid-cols-2 md:place-items-center *:md:min-w-[80%] 2xl:grid-cols-3">
           {isLoading &&
             Array.from({ length: 6 }).map((_, index) => (
               <Skeleton
@@ -165,14 +164,9 @@ const FindJobsPage = () => {
               />
             ))}
         </div>
-        <div className="mx-auto hidden max-w-6xl place-items-center gap-8 md:grid sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid w-[inherit] place-content-center gap-6 *:w-full md:grid-cols-2 md:place-items-center *:md:min-w-[80%] 2xl:grid-cols-3">
           {jobs.map((job, index) => (
             <JobCard job={job} key={index} />
-          ))}
-        </div>
-        <div className="mx-auto grid max-w-6xl gap-8 md:hidden sm:grid-cols-2 lg:grid-cols-3">
-          {jobs.map((job, index) => (
-            <JobCardMobile job={job} key={index} />
           ))}
         </div>
         {!isLoading && jobs.length === 0 && (
