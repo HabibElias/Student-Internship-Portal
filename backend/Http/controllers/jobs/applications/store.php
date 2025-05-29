@@ -11,6 +11,9 @@ header("Access-Control-Allow-Methods: GET");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 header("Access-Control-Allow-Credentials: true");
 
+$entityBody = file_get_contents('php://input');
+$_POST = json_decode($entityBody, true);
+
 // check if this user is a student
 
 $job_id = $_POST['job_id'] ?? null;
