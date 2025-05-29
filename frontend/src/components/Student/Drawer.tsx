@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Logo from "../Logo.tsx";
 import { Button } from "../ui/button.tsx";
 import {
@@ -18,6 +18,7 @@ import {
   LayoutDashboard,
   LogOut,
   Menu,
+  File,
   Search,
   User,
   X,
@@ -31,12 +32,14 @@ import { useState } from "react";
 
 const CustomDrawer = () => {
   const [open, setOpen] = useState<boolean>(false);
+  const navigate = useNavigate();
   const { user, logout } = useAuth();
-  const routes = ["dashboard", "findJobs", "savedJobs"];
+  const routes = ["dashboard", "findJobs", "savedJobs", "applications"];
   const routesIcon: Map<string, any> = new Map([
     ["dashboard", <LayoutDashboard />],
     ["findJobs", <Search fillOpacity={0} />],
     ["savedJobs", <BookmarkCheck fillOpacity={0} />],
+    ["applications", <File />],
   ]);
 
   return (
@@ -114,12 +117,15 @@ const CustomDrawer = () => {
                       <div className="text-xs text-gray-400">{user.email}</div>
                     </div>
                   </div>
-                  <ChevronsUpDown />
+              <ChevronsUpDown />
                 </div>
               </PopoverTrigger>
               <PopoverContent className="mb-3">
                 <div className="flex flex-col gap-3 *:cursor-pointer">
-                  <Button variant={"outline"}>
+                  <Button
+                    onClick={() => navigate("/profile")}
+                    variant={"outline"}
+                  >
                     <User />
                     Edit Profile
                   </Button>

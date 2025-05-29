@@ -6,6 +6,7 @@ export default interface Student {
   graduation_date: string;
   department: number;
   profile_picture: string;
+  about?: string;
 }
 
 

@@ -1,5 +1,5 @@
 import { X } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 interface Prop {
   id: string;
@@ -9,6 +9,15 @@ interface Prop {
 
 const ImageInput = ({ required, id, labelName }: Prop) => {
   const [file, setFile] = useState<File>();
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const clearFile = () => {
+    setFile(undefined);
+    // Reset the input value so the same file can be selected again
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
+  };
 
   return (
     <div className="col-span-full">
@@ -38,6 +47,9 @@ const ImageInput = ({ required, id, labelName }: Prop) => {
             return;
           }
           setFile(() => selectedFile);
+          if (inputRef.current) {
+            inputRef.current.value = "";
+          }
         }}
       >
         <div className="text-center">
@@ -58,9 +70,7 @@ const ImageInput = ({ required, id, labelName }: Prop) => {
           ) : (
             <div className="relative">
               <button
-                onClick={() => {
-                  setFile(undefined);
-                }}
+                onClick={clearFile}
                 className="absolute top-0 right-0 cursor-pointer rounded-full bg-red-400 p-2 text-white duration-200 hover:bg-red-600"
               >
                 <X size={18} />
@@ -84,6 +94,7 @@ const ImageInput = ({ required, id, labelName }: Prop) => {
                 type="file"
                 className="sr-only"
                 accept="image/png, image/jpeg, image/gif"
+                ref={inputRef}
                 onChange={async (e) => {
                   const selectedFile = e.target.files?.[0];
                   if (!selectedFile) return;

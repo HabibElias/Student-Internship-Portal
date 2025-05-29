@@ -4,6 +4,15 @@ export default interface Company {
   company_image: string;
   location: string;
   description: string;
+  email?: string;
+  socials?: {
+    id: number;
+    company_id: number;
+    linkedin: string;
+    twitter: string;
+    facebook: string;
+    website: string;
+  };
 }
 
 export function isCompany(obj: any): obj is Company {

@@ -14,7 +14,7 @@ $db = App::resolve('Core\Database');
 
 $page = isset($_GET['page']) ? (((int)$_GET['page'] <= 0) ? 1 : $_GET['page']) : 1;
 
-$limit = $_GET['limit'] ?? 10;
+$limit = $_GET['limit'] ?? 9;
 
 $offset = ($page - 1) * $limit;
 
@@ -103,6 +103,16 @@ $data = [];
 
 
 foreach ($jobs as $job) {
+    // Fetch company socials
+    $socials = $db->query(
+        "SELECT * FROM company_socials WHERE company_id = :company_id",
+        [
+            'company_id' => $job['company_id']
+        ]
+    )->findOrFail();
+
+    $job['company_socials'] = $socials;
+
     $job['remote'] = (bool) $job['remote'];
     $job['full_time'] = (bool) $job['full_time'];
 

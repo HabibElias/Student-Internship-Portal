@@ -4,6 +4,8 @@ namespace Core;
 
 class ValidationException extends \Exception
 {
+
+
     /**
      * @throws ValidationException
      */

@@ -3,14 +3,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import useJob from "@/hooks/useJob";
 import { cn } from "@/lib/utils";
-import { Job } from "@/models/Job";
 import { useAuth } from "@/providers/AuthProvider";
 import { Label } from "@radix-ui/react-label";
 import { Briefcase, Loader } from "lucide-react";
 import { FormEvent, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 
-const ApplyPage = ({ j }: { j?: Job }) => {
+const ApplyPage = () => {
   const { id } = useParams();
   const { job } = useJob({ id: id });
   const { fetchState, applyToJob } = useAuth();
@@ -48,7 +47,7 @@ const ApplyPage = ({ j }: { j?: Job }) => {
               id="job"
               className={cn("w-full p-5")}
               type="text"
-              value={job.title}
+              value={job.title || ""}
               disabled
             />
           </div>

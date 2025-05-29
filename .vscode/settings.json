@@ -11,6 +11,7 @@
         "httponly",
         "instagramlink",
         "lastname",
+        "msdoc",
         "Mustermann",
         "Sendinblue",
         "SMTPS",
@@ -19,5 +20,6 @@
         "Transac",
         "VITE",
         "weblink"
-    ]
+    ],
+    "C_Cpp.dimInactiveRegions": false
 }

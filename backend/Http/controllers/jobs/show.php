@@ -20,13 +20,23 @@ if (!$job_id) {
 
 // find job
 $job = $db->query(
-    "SELECT j.id, company_id, company_name, company_image, title, remote, full_time, job_level, j.description, posted_time, c.location, skills, deadline
+    "SELECT j.id, company_id, company_name, company_image, title, remote, full_time, job_level, j.description, posted_time, c.location, c.description as company_description, skills, deadline
     FROM job j
-    JOIN companies c ON c.user_id = j.company_id where j.id = :id",
+    JOIN companies c ON c.user_id = j.company_id WHERE j.id = :id",
     [
         'id' => $job_id
     ]
 )->findOrFail();
+
+// Fetch company socials
+$socials = $db->query(
+    "SELECT * FROM company_socials WHERE company_id = :company_id",
+    [
+        'company_id' => $job['company_id']
+    ]
+)->findOrFail();
+
+$job['company_socials'] = $socials;
 
 $job['remote'] = (bool) $job['remote'];
 $job['full_time'] = (bool) $job['full_time'];

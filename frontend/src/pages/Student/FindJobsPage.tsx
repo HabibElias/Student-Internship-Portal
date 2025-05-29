@@ -1,5 +1,4 @@
 import JobCard from "@/components/Student/JobCard";
-import JobCardMobile from "@/components/Student/JobCardMobile";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -21,6 +20,7 @@ const FindJobsPage = () => {
   const [jobLevel, setJobLevel] = useState<string>("");
   const [fullTime, setFullTime] = useState<string>("");
   const [postedTime, setPostedTime] = useState<string>("");
+  const [remote, setRemote] = useState<string>("");
 
   const {
     isLoading,
@@ -36,6 +36,7 @@ const FindJobsPage = () => {
     job_level: jobLevel,
     full_time: fullTime,
     posted_time: postedTime,
+    remote,
   });
 
   useEffect(() => {
@@ -103,6 +104,29 @@ const FindJobsPage = () => {
               </Select>
             </div>
             <div className="input">
+              <Label htmlFor="remote" className="mb-3">
+                Remote
+              </Label>
+              <Select
+                onValueChange={(value) => {
+                  setRemote(value);
+                  setQueryPage(1);
+                }}
+              >
+                <SelectTrigger
+                  id="remote"
+                  className="w-[180px] bg-(--inputFill)"
+                >
+                  <SelectValue placeholder="All" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="#">All</SelectItem>
+                  <SelectItem value="1">Remote</SelectItem>
+                  <SelectItem value="0">On-site</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="input">
               <Label htmlFor="type" className="mb-3">
                 Time
               </Label>
@@ -156,7 +180,7 @@ const FindJobsPage = () => {
           Search Results
         </h4>
 
-        <div className="mx-auto hidden max-w-6xl place-items-center gap-8 sm:grid sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid w-[inherit] place-content-center gap-6 *:w-full md:grid-cols-2 md:place-items-center *:md:min-w-[80%] 2xl:grid-cols-3">
           {isLoading &&
             Array.from({ length: 6 }).map((_, index) => (
               <Skeleton
@@ -165,14 +189,9 @@ const FindJobsPage = () => {
               />
             ))}
         </div>
-        <div className="mx-auto hidden max-w-6xl place-items-center gap-8 md:grid sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid w-[inherit] place-content-center gap-6 *:w-full md:grid-cols-2 md:place-items-center *:md:min-w-[80%] 2xl:grid-cols-3">
           {jobs.map((job, index) => (
             <JobCard job={job} key={index} />
-          ))}
-        </div>
-        <div className="mx-auto grid max-w-6xl gap-8 md:hidden sm:grid-cols-2 lg:grid-cols-3">
-          {jobs.map((job, index) => (
-            <JobCardMobile job={job} key={index} />
           ))}
         </div>
         {!isLoading && jobs.length === 0 && (

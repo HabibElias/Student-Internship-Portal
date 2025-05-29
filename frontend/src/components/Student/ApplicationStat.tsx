@@ -12,15 +12,15 @@ const ApplicationStat = () => {
           <span className="mb-2 block text-lg font-medium text-gray-600">
             Your Applications
           </span>
-          <Skeleton className="h-36 w-full rounded-2xl mb-2" />
-          <Skeleton className="h-5 w-24 ml-auto" />
+          <Skeleton className="mb-2 h-36 w-full rounded-2xl" />
+          <Skeleton className="ml-auto h-5 w-24" />
         </div>
         <div className="w-full md:max-w-100">
-          <span className="mb-2 block text-lg font-medium text-gray-600">
+          <span className="mb-2 block w-fit text-lg font-medium text-gray-600">
             Accepted Applications
           </span>
-          <Skeleton className="h-36 w-full rounded-2xl mb-2" />
-          <Skeleton className="h-5 w-24 ml-auto" />
+          <Skeleton className="mb-2 h-36 w-full rounded-2xl" />
+          <Skeleton className="ml-auto h-5 w-24" />
         </div>
       </div>
     );
@@ -65,7 +65,7 @@ const ApplicationStat = () => {
         </div>
         <div className="mt-2 flex justify-end">
           <Link
-            to={'/applications'}
+            to={"/applications"}
             className="font-medium text-[#6c63ff] transition hover:underline"
           >
             View here

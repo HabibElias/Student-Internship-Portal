@@ -53,9 +53,9 @@ if ($user['user_type'] === 'student') {
     ];
 } else {
     $company = $db->query(
-        'SELECT c.* FROM users u JOIN companies c ON u.id = c.user_id WHERE u.email = :email',
+        'SELECT c.* FROM users u JOIN companies c ON u.id = c.user_id WHERE u.id = :id',
         [
-            'email' => $email
+            'id' => $token['user_id']
         ]
     )->findOrFail();
 

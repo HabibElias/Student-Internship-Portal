@@ -8,7 +8,7 @@ import {
   Search,
   User,
 } from "lucide-react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import {
   Popover,
@@ -22,6 +22,7 @@ import { isStudent } from "@/models/Student";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
   const routes = ["dashboard", "findJobs", "savedJobs", "applications"];
   const routesIcon: Map<string, any> = new Map([
     ["dashboard", <LayoutDashboard />],
@@ -51,7 +52,9 @@ const Navbar = () => {
             <div className="group-[a.active]:animate-bounce *:group-[a.active]:[fill:#7D7ADA] group-[a.active]:group-hover:animate-none">
               {routesIcon.get(route)}
             </div>
-            <span className="hidden xl:inline">{route.slice(0, 1).toUpperCase() + route.slice(1)}</span>
+            <span className="hidden xl:inline">
+              {route.slice(0, 1).toUpperCase() + route.slice(1)}
+            </span>
           </NavLink>
         ))}
         {/* <DarkThemeToggle /> */}
@@ -69,7 +72,7 @@ const Navbar = () => {
                 </AvatarFallback>
               </Avatar>
             </PopoverTrigger>
-            <PopoverContent className="mt-3 mr-10 grid gap-4 rounded-md bg-white/50 p-3 backdrop-blur-2xl">
+            <PopoverContent className="mt-3 mr-10 grid gap-4 rounded-md bg-white/50 p-3 font-[poppins] backdrop-blur-2xl">
               <div>
                 <div>
                   {isStudent(user.data) &&
@@ -79,7 +82,10 @@ const Navbar = () => {
               </div>
               <div className="h-0.5 w-full rounded-full bg-gray-400"></div>
               <div className="flex flex-col gap-3 *:cursor-pointer">
-                <Button variant={"outline"}>
+                <Button
+                  onClick={() => navigate("/profile")}
+                  variant={"outline"}
+                >
                   <User />
                   Edit Profile
                 </Button>

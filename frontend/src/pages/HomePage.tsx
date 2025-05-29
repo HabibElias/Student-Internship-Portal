@@ -1,13 +1,9 @@
 import Feature from "@/components/HomePage/Feature";
 import Hero from "@/components/HomePage/Hero";
 import Numbers from "@/components/HomePage/Numbers";
-import { useAuth } from "@/providers/AuthProvider";
 
 const HomePage = () => {
-  const { user } = useAuth();
-
-  console.log(user);
-
+  
   return (
     <div className="flex w-full flex-col justify-center bg-[url(@/assets/HomePage/Grid1.svg)] bg-fixed text-white">
       {/* Hero Section */}

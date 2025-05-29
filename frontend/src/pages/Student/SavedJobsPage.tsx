@@ -24,7 +24,7 @@ const SavedJobsPage = () => {
   return (
     <div className="mx-auto w-[90%] pt-45 font-[poppins]">
       <h2 className="mb-4 text-2xl font-semibold">Your Saved Jobs</h2>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid w-[inherit] place-content-center gap-6 *:w-full md:grid-cols-2 md:place-items-center *:md:min-w-[80%] 2xl:grid-cols-3">
         {savedJobs.map((sJob) => (
           <div key={sJob.id} className="relative w-fit">
             {sJob.job.company_name && <JobCard job={sJob.job} />}

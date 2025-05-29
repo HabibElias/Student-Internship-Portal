@@ -16,9 +16,16 @@ interface Props {
   job_level?: string;
   full_time?: string;
   posted_time?: string;
+  remote?: string;
 }
 
-const useJobs = ({ title, job_level, full_time, posted_time }: Props) => {
+const useJobs = ({
+  title,
+  job_level,
+  full_time,
+  posted_time,
+  remote,
+}: Props) => {
   const [page, setPage] = useState<number>();
   const [total, setTotal] = useState<number>();
   const [limit, setLimit] = useState<number>();
@@ -31,17 +38,20 @@ const useJobs = ({ title, job_level, full_time, posted_time }: Props) => {
   useEffect(() => {
     let query = `/jobs?page=${queryPage}`;
 
-    if (posted_time && posted_time !== '#') {
+    if (posted_time && posted_time !== "#") {
       query += `&posted_time=${posted_time}`;
     }
-    if (title && title !== '#') {
+    if (title && title !== "#") {
       query += `&title=${title}`;
     }
-    if (job_level && job_level !== '#') {
+    if (job_level && job_level !== "#") {
       query += `&job_level=${job_level}`;
     }
-    if (full_time && full_time !== '#') {
+    if (full_time && full_time !== "#") {
       query += `&full_time=${full_time}`;
+    }
+    if (remote && remote !== "#") {
+      query += `&remote=${remote}`;
     }
 
     setIsLoading(true);
@@ -60,7 +70,7 @@ const useJobs = ({ title, job_level, full_time, posted_time }: Props) => {
         console.error(err);
         setIsLoading(false);
       });
-  }, [queryPage, posted_time, title, job_level, full_time]);
+  }, [queryPage, posted_time, title, job_level, full_time, remote]);
 
   return {
     isLoading,
